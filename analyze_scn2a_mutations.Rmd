@@ -1,0 +1,75 @@
+---
+title: "SCN2A Mutations"
+output: html_notebook
+---
+
+# SCN2A mutations from Sanders et al. (2018)
+Instructor: Joon An, Korea University
+BSMS222
+Update 2019/09/03
+
+*SCN2A* is a voltage-gated sodium channel gene that encodes the neuronal sodium channel *NaV1.2* and plays a critical role in action potential initiation during early neurodevelopment. The latest study demonstrated that it is loss of function mutations that in *SCN2A* that lead to autism spectrum disorders (ASD), in contrast to gain of function, which leads to infantile seizures ([Ben-Shalom 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5796785/)). 
+
+In this tutorial, we will handle genetic data for *SCN2A* mutations identified in latest genomic studies, and explore their patterns using R basic functions. Our tutorial will utilize the summary data from [Sanders et al. (2018)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6015533/). We can obtain the list of mutations in the supplementary table 1 (Table S1).
+
+## Load dataset
+
+We will read the txt file from the shared Dropbox link into your workspace. The file includes the first tab of the Table S1. You use `read.csv` function to read the file from the URL. Then, you create the `d` object.
+
+```{r}
+d = read.csv('https://www.dropbox.com/s/he7r6v4hxu0ibno/tableS1.Sanders2018.txt?dl=1', sep='\t')
+```
+
+## Explore your data
+
+Let's explore the one you loaded. How would you check the class of the `d` object?
+
+```{r}
+# Please type the command below
+
+```
+
+It shows that the `d` object is '_________'. 
+
+Then, let's overview the data frame.
+
+```{r}
+head(d)
+
+```
+
+You can see several columns in this data frame. Let's look at the first column `PatientID` and check which class is. 
+
+```{r}
+# Please type the command below
+
+```
+
+Right. It's '___________'. How about the class for the column `Effect`?
+
+```{r}
+# Please type the command below
+
+```
+
+We can overview the summary of the dataset. How many columns have a character class?
+
+```{r}
+# Please type the command below
+summary(d)
+```
+
+## Convert your class into another class
+
+We will convert the data frame into a matrix. You can use the command called `as.matrix`.
+
+```{r}
+d1 = as.matrix(d)
+```
+
+Let's overview the matrix object. Can you find difference with data frame?
+
+```{r}
+summary(d1)
+```
+
