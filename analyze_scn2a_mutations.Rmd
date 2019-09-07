@@ -17,6 +17,7 @@ In this tutorial, we will handle genetic data for *SCN2A* mutations identified i
 We will read the txt file from the shared Dropbox link into your workspace. The file includes the first tab of the Table S1. You use `read.csv` function to read the file from the URL. Then, you create the `d` object.
 
 ```{r}
+options(stringsAsFactors = F)
 d = read.csv('https://www.dropbox.com/s/he7r6v4hxu0ibno/tableS1.Sanders2018.txt?dl=1', sep='\t')
 ```
 
@@ -26,7 +27,7 @@ Let's explore the one you loaded. How would you check the class of the `d` objec
 
 ```{r}
 # Please type the command below
-
+class(d)
 ```
 
 It shows that the `d` object is '_________'. 
@@ -35,21 +36,20 @@ Then, let's overview the data frame.
 
 ```{r}
 head(d)
-
 ```
 
 You can see several columns in this data frame. Let's look at the first column `PatientID` and check which class is. 
 
 ```{r}
 # Please type the command below
-
+head(d$PatientID)
 ```
 
 Right. It's '___________'. How about the class for the column `Effect`?
 
 ```{r}
 # Please type the command below
-
+class(d$TrueRecurrence)
 ```
 
 We can overview the summary of the dataset. How many columns have a character class?
@@ -64,12 +64,103 @@ summary(d)
 We will convert the data frame into a matrix. You can use the command called `as.matrix`.
 
 ```{r}
-d1 = as.matrix(d)
+m = as.matrix(d)
 ```
 
 Let's overview the matrix object. Can you find difference with data frame?
 
 ```{r}
-summary(d1)
+m[,'TrueRecurrence']
 ```
+
+## Subsetting and Sorting
+
+Some patients who have the SCN2A mutation (hereafter called "SCN2A patient") often have seizures. So we want to know when the seizure occurs in development.
+
+Let's check the class first.
+
+```{r}
+class(d$SeizureOnsetDays)
+```
+
+Why this column contains character? Let's head the first few lines.
+
+```{r}
+head(d$SeizureOnsetDays)
+```
+
+It seems that some rows contain samples who do not have seizure or unknown information. It's represented by `"."`, and also recorded in another column called `Seizures`.
+
+```{r}
+head(d$Seizures)
+```
+
+So we want to subset rows where the seizure phenotype is available.
+
+```{r}
+d1 = d[d$Seizures=='Y',]
+```
+
+Let's see how many samples have seizure phenotypes?
+Then, you can ask when is the earliest days for the representation of seizure phenotype? How can we check this? The fisrt, as seen previously the `SeizureOnsetDays` column is character so we cannot apply functions for numeric. 
+
+```{r}
+head(d1$SeizureOnsetDays)
+```
+
+So we have to convert this into numeric first. 
+
+```{r}
+d1$SeizureOnsetDays2 <- as.numeric(d1$SeizureOnsetDays)
+```
+
+Hmm. There's an warning for `NA` introduction. This is because some rows do not have character that we can properly convert from character to numeric. So possible solutions are either you can bear with this in your downstream analyses or 2) convert character into an appropriate form of numeric conversion.
+
+Then, the question is how can we find the rows with `NA`? We will ask whether the rows contains `NA` or not using `is.na` function. This will return boolean as to `NA` presence.
+
+```{r}
+is.na(d1$SeizureOnsetDays2)
+```
+
+See we can find some rows with `NA`. One of them is the 7th row. Let's see how it looks like.
+
+```{r}
+d1$SeizureOnsetDays[7]
+```
+
+Here you have `<` in the character so it won't properly converted to numeric information.
+
+How about others?
+
+```{r}
+d1[is.na(d1$SeizureOnsetDays2),]$SeizureOnsetDays
+```
+
+Our `NAs` all contains `<` (angle bracket), which we will fix for the analysis. 
+
+For example, we can convert `<365` into `365`. One function we can try is `gsub`. This replace your string into proper format. For example, 
+
+```{r}
+# gsub('pattern in your character', 'new character you want to replace', vectors for your character)
+d1$SeizureOnsetDays3 <- gsub('<', '', d1$SeizureOnsetDays)
+
+head(d1$SeizureOnsetDays3)
+```
+
+Let's convert it into numerics
+
+```{r}
+d1$SeizureOnsetDays3 <- as.numeric(d1$SeizureOnsetDays3)
+```
+
+Did you get an warning for this?
+Now we can ask our initial question. When is the earliest day for having seizure?
+
+```{r}
+min(d1$SeizureOnsetDays3)
+```
+
+
+
+
 
