@@ -6,13 +6,13 @@ output: html_notebook
 # SCN2A mutations from Sanders et al. (2018)
 Update: 2019/09/03
 
-## Background
+### Background
 
 *SCN2A* is a voltage-gated sodium channel gene that encodes the neuronal sodium channel *NaV1.2* and plays a critical role in action potential initiation during early neurodevelopment. The latest study demonstrated that it is loss of function mutations that in *SCN2A* that lead to autism spectrum disorders (ASD), in contrast to gain of function, which leads to infantile seizures ([Ben-Shalom 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5796785/)). 
 
 In this tutorial, we will handle genetic data for *SCN2A* mutations identified in latest genomic studies, and explore their patterns using R basic functions. Our tutorial will utilize the summary data from [Sanders et al. (2018)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6015533/). We can obtain the list of mutations in the supplementary table 1 (Table S1).
 
-## Aims
+### Aims
 
 What we will do with this dataset
 
@@ -166,6 +166,11 @@ min(d1$SeizureOnsetDays3)
 ```
 
 
+## Exercise
+
+- Load the dataset using functions from the `tibble` package.
+- Describe columns and set up a plan for downstream analyses.
+- Explore other columns for frequency.
 
 
 
