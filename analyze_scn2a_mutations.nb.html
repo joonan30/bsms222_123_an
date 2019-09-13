@@ -1769,9 +1769,21 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <div id="scn2a-mutations-from-sanders-et-al.-2018" class="section level1">
 <h1>SCN2A mutations from Sanders et al. (2018)</h1>
-<p>Instructor: Joon An, Korea University BSMS222 Update 2019/09/03</p>
+<p>Update: 2019/09/03</p>
+<div id="background" class="section level2">
+<h2>Background</h2>
 <p><em>SCN2A</em> is a voltage-gated sodium channel gene that encodes the neuronal sodium channel <em>NaV1.2</em> and plays a critical role in action potential initiation during early neurodevelopment. The latest study demonstrated that it is loss of function mutations that in <em>SCN2A</em> that lead to autism spectrum disorders (ASD), in contrast to gain of function, which leads to infantile seizures (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5796785/">Ben-Shalom 2018</a>).</p>
 <p>In this tutorial, we will handle genetic data for <em>SCN2A</em> mutations identified in latest genomic studies, and explore their patterns using R basic functions. Our tutorial will utilize the summary data from <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6015533/">Sanders et al. (2018)</a>. We can obtain the list of mutations in the supplementary table 1 (Table S1).</p>
+</div>
+<div id="aims" class="section level2">
+<h2>Aims</h2>
+<p>What we will do with this dataset</p>
+<ul>
+<li>Be familiar with a data frame format.</li>
+<li>Practice functions you have learnt from the Chapter 3 and 4.</li>
+<li>Unboxing the dataset from a scientific journal ;)</li>
+</ul>
+</div>
 <div id="load-dataset" class="section level2">
 <h2>Load dataset</h2>
 <p>We will read the txt file from the shared Dropbox link into your workspace. The file includes the first tab of the Table S1. You use <code>read.csv</code> function to read the file from the URL. Then, you create the <code>d</code> object.</p>
@@ -1786,7 +1798,7 @@ d = read.csv('https://www.dropbox.com/s/he7r6v4hxu0ibno/tableS1.Sanders2018.txt?
 </div>
 <div id="explore-your-data" class="section level2">
 <h2>Explore your data</h2>
-<p>Let’s explore the one you loaded. How would you check the class of the <code>d</code> object?</p>
+<p>Let’s explore the object you just loaded. How would you check the class of the object <code>d</code>?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvd1xuY2xhc3MoZClcbmBgYCJ9 -->
@@ -1799,7 +1811,7 @@ class(d)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>It shows that the <code>d</code> object is ‘_________’.</p>
-<p>Then, let’s overview the data frame.</p>
+<p>Then, let’s overview this data frame. We will use <code>head</code> function to print out the first few lines.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkKVxuYGBgIn0= -->
@@ -1814,20 +1826,19 @@ class(d)</code></pre>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>You can see several columns in this data frame. Let’s look at the first column <code>PatientID</code> and check which class is.</p>
+<p>When you execute code in a notebook chunk, an output will be visible immediately beneath the input. From this, you can see several rows and columns in the data frame. Let’s look at the first column <code>PatientID</code> and check which class it is.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvd1xuaGVhZChkJFBhdGllbnRJRClcbmBgYCJ9 -->
 <pre class="r"><code># Please type the command below
 head(d$PatientID)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMTQ1MjUucDFcIiAgICAgXCIyLTEyOTEtMDNcIiAgICBcIjhcIiAgICAgICAgICAgXG5bNF0gXCI5XCIgICAgICAgICAgICBcIjE1NDY3LngxXCIgICAgIFwiU0tMTUdfTTEyNDM0XCJcbiJ9 -->
-<pre><code>[1] &quot;14525.p1&quot;     &quot;2-1291-03&quot;    &quot;8&quot;           
-[4] &quot;9&quot;            &quot;15467.x1&quot;     &quot;SKLMG_M12434&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMTQ1MjUucDFcIiAgICAgXCIyLTEyOTEtMDNcIiAgICBcIjhcIiAgICAgICAgICAgIFwiOVwiICAgICAgICAgICAgXCIxNTQ2Ny54MVwiICAgICBcIlNLTE1HX00xMjQzNFwiXG4ifQ== -->
+<pre><code>[1] &quot;14525.p1&quot;     &quot;2-1291-03&quot;    &quot;8&quot;            &quot;9&quot;            &quot;15467.x1&quot;     &quot;SKLMG_M12434&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Right. It’s ‘___________’. How about the class for the column <code>Effect</code>?</p>
+<p>Right. It’s ‘___________’. How about the class of the column <code>Effect</code>?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvd1xuY2xhc3MoZCRUcnVlUmVjdXJyZW5jZSlcbmBgYCJ9 -->
@@ -1839,98 +1850,42 @@ class(d$TrueRecurrence)</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>We can overview the summary of the dataset. How many columns have a character class?</p>
+<p>To check the class of columns, you don’t need to type an individual column. We can overview the summary of the dataset using <code>summary</code> function. Which column has the <code>character</code> class?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvd1xuc3VtbWFyeShkKVxuYGBgIn0= -->
 <pre class="r"><code># Please type the command below
 summary(d)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICBQYXRpZW50SUQgICAgICAgICAgUGF0aWVudFNleCAgICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBQYXRpZW50QWdlQXRBc3Nlc3NtZW50ICAgICAgQ2hyICAgICAgUG9zX2hnMTkgICAgICAgIFxuIExlbmd0aDoyNjMgICAgICAgICAgICAgTWluLiAgIDoyICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgICAgICAxc3QgUXUuOjIgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgICAgIE1lZGlhbiA6MiAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDoyICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjIgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6MiAgICAgICAgICAgICAgICAgICAgIFxuICAgICBSZWYgICAgICAgICAgICAgICAgQWx0ICAgICAgICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgVHlwZSAgICAgICAgICAgICAgRWZmZWN0ICAgICAgICAgXG4gTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgYy5ETkEgICAgICAgICAgICBwLlByb3RlaW4gICAgICAgIFxuIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIEluaGVyaXRlbmNlICAgICAgICAgICBTb3VyY2UgICAgICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgU291cmNlUE1JRCAgICAgICAgQmVuLlNoYWxvbTIwMTcgICAgXG4gTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gIFdvbGZmMjAxNyAgICAgICAgIEFueVJlY3VycmVuY2UgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTWluLiAgIDogMS4wMDAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICAxc3QgUXUuOiAxLjAwMCAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1lZGlhbiA6IDEuMDAwICBcbiAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDogMi4yMDkgIFxuICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOiAyLjAwMCAgXG4gICAgICAgICAgICAgICAgICAgIE1heC4gICA6MTAuMDAwICBcbiBVbmlxdWVTYW1wbGUuRmFtaWx5IFRydWVSZWN1cnJlbmNlICAgIFNlaXp1cmVzICAgICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgIE1pbi4gICA6MS4wMDAgICBMZW5ndGg6MjYzICAgICAgICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgIDFzdCBRdS46MS4wMDAgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgIE1lZGlhbiA6MS4wMDAgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgIE1lYW4gICA6MS44NDggICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgIDNyZCBRdS46MS4wMDAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6Ny4wMDAgICAgICAgICAgICAgICAgICAgICBcbiBTZWl6dXJlT25zZXREYXlzICAgU2VpenVyZVR5cGUgICAgICAgXG4gTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgIEFTRCAgICAgICAgICAgICAgIERELklEICAgICAgICAgIFxuIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIERELklELnNldmVyaXR5ICAgICBPdGhlckZlYXR1cmVzICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiBDbGFzc2lmaWNhdGlvbiAgICBcbiBMZW5ndGg6MjYzICAgICAgICBcbiBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code>  PatientID          PatientSex       
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
- PatientAgeAtAssessment      Chr      Pos_hg19        
- Length:263             Min.   :2   Length:263        
- Class :character       1st Qu.:2   Class :character  
- Mode  :character       Median :2   Mode  :character  
-                        Mean   :2                     
-                        3rd Qu.:2                     
-                        Max.   :2                     
-     Ref                Alt           
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
-     Type              Effect         
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
-    c.DNA            p.Protein        
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
- Inheritence           Source         
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
-  SourcePMID        Ben.Shalom2017    
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
-  Wolff2017         AnyRecurrence   
- Length:263         Min.   : 1.000  
- Class :character   1st Qu.: 1.000  
- Mode  :character   Median : 1.000  
-                    Mean   : 2.209  
-                    3rd Qu.: 2.000  
-                    Max.   :10.000  
- UniqueSample.Family TrueRecurrence    Seizures        
- Length:263          Min.   :1.000   Length:263        
- Class :character    1st Qu.:1.000   Class :character  
- Mode  :character    Median :1.000   Mode  :character  
-                     Mean   :1.848                     
-                     3rd Qu.:1.000                     
-                     Max.   :7.000                     
- SeizureOnsetDays   SeizureType       
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
-     ASD               DD.ID          
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
- DD.ID.severity     OtherFeatures     
- Length:263         Length:263        
- Class :character   Class :character  
- Mode  :character   Mode  :character  
-                                      
-                                      
-                                      
+<!-- rnb-output-begin eyJkYXRhIjoiICBQYXRpZW50SUQgICAgICAgICAgUGF0aWVudFNleCAgICAgICAgUGF0aWVudEFnZUF0QXNzZXNzbWVudCAgICAgIENociAgICAgIFBvc19oZzE5ICAgICAgICAgICAgIFJlZiAgICAgICAgICAgICAgICBBbHQgICAgICAgICAgIFxuIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgICAgICBNaW4uICAgOjIgICBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgICAgICAxc3QgUXUuOjIgICBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgICAgICBNZWRpYW4gOjIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNZWFuICAgOjIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNYXguICAgOjIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICBUeXBlICAgICAgICAgICAgICBFZmZlY3QgICAgICAgICAgICAgYy5ETkEgICAgICAgICAgICBwLlByb3RlaW4gICAgICAgICBJbmhlcml0ZW5jZSAgICAgICAgICAgU291cmNlICAgICAgICAgXG4gTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gIFNvdXJjZVBNSUQgICAgICAgIEJlbi5TaGFsb20yMDE3ICAgICAgV29sZmYyMDE3ICAgICAgICAgQW55UmVjdXJyZW5jZSAgICBVbmlxdWVTYW1wbGUuRmFtaWx5IFRydWVSZWN1cnJlbmNlICAgIFNlaXp1cmVzICAgICAgICBcbiBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgICBNaW4uICAgOiAxLjAwMCAgIExlbmd0aDoyNjMgICAgICAgICAgTWluLiAgIDoxLjAwMCAgIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIDFzdCBRdS46IDEuMDAwICAgQ2xhc3MgOmNoYXJhY3RlciAgICAxc3QgUXUuOjEuMDAwICAgQ2xhc3MgOmNoYXJhY3RlciAgXG4gTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTWVkaWFuIDogMS4wMDAgICBNb2RlICA6Y2hhcmFjdGVyICAgIE1lZGlhbiA6MS4wMDAgICBNb2RlICA6Y2hhcmFjdGVyICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNZWFuICAgOiAyLjIwOSAgICAgICAgICAgICAgICAgICAgICAgTWVhbiAgIDoxLjg0OCAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDNyZCBRdS46IDIuMDAwICAgICAgICAgICAgICAgICAgICAgICAzcmQgUXUuOjEuMDAwICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTWF4LiAgIDoxMC4wMDAgICAgICAgICAgICAgICAgICAgICAgIE1heC4gICA6Ny4wMDAgICAgICAgICAgICAgICAgICAgICBcbiBTZWl6dXJlT25zZXREYXlzICAgU2VpenVyZVR5cGUgICAgICAgICAgICBBU0QgICAgICAgICAgICAgICBERC5JRCAgICAgICAgICAgREQuSUQuc2V2ZXJpdHkgICAgIE90aGVyRmVhdHVyZXMgICAgIFxuIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgIExlbmd0aDoyNjMgICAgICAgICBMZW5ndGg6MjYzICAgICAgICAgTGVuZ3RoOjI2MyAgICAgICAgXG4gQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICAgQ2xhc3MgOmNoYXJhY3RlciAgIENsYXNzIDpjaGFyYWN0ZXIgICBDbGFzcyA6Y2hhcmFjdGVyICBcbiBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgICBNb2RlICA6Y2hhcmFjdGVyICAgTW9kZSAgOmNoYXJhY3RlciAgIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuIENsYXNzaWZpY2F0aW9uICAgIFxuIExlbmd0aDoyNjMgICAgICAgIFxuIENsYXNzIDpjaGFyYWN0ZXIgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgIFxuICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgIFxuIn0= -->
+<pre><code>  PatientID          PatientSex        PatientAgeAtAssessment      Chr      Pos_hg19             Ref                Alt           
+ Length:263         Length:263         Length:263             Min.   :2   Length:263         Length:263         Length:263        
+ Class :character   Class :character   Class :character       1st Qu.:2   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character       Median :2   Mode  :character   Mode  :character   Mode  :character  
+                                                              Mean   :2                                                           
+                                                              3rd Qu.:2                                                           
+                                                              Max.   :2                                                           
+     Type              Effect             c.DNA            p.Protein         Inheritence           Source         
+ Length:263         Length:263         Length:263         Length:263         Length:263         Length:263        
+ Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+  SourcePMID        Ben.Shalom2017      Wolff2017         AnyRecurrence    UniqueSample.Family TrueRecurrence    Seizures        
+ Length:263         Length:263         Length:263         Min.   : 1.000   Length:263          Min.   :1.000   Length:263        
+ Class :character   Class :character   Class :character   1st Qu.: 1.000   Class :character    1st Qu.:1.000   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Median : 1.000   Mode  :character    Median :1.000   Mode  :character  
+                                                          Mean   : 2.209                       Mean   :1.848                     
+                                                          3rd Qu.: 2.000                       3rd Qu.:1.000                     
+                                                          Max.   :10.000                       Max.   :7.000                     
+ SeizureOnsetDays   SeizureType            ASD               DD.ID           DD.ID.severity     OtherFeatures     
+ Length:263         Length:263         Length:263         Length:263         Length:263         Length:263        
+ Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
  Classification    
  Length:263        
  Class :character  
@@ -1942,9 +1897,9 @@ summary(d)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="convert-your-class-into-another-class" class="section level2">
-<h2>Convert your class into another class</h2>
-<p>We will convert the data frame into a matrix. You can use the command called <code>as.matrix</code>.</p>
+<div id="difference-between-data-frame-and-matrix" class="section level2">
+<h2>Difference between data frame and matrix</h2>
+<p>Here we will convert the data frame into a matrix, and compare which part will be different in this. To convert a data frame into a matrix, you can use the command called <code>as.matrix</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubSA9IGFzLm1hdHJpeChkKVxuYGBgIn0= -->
@@ -1952,35 +1907,14 @@ summary(d)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Let’s overview the matrix object. Can you find difference with data frame?</p>
+<p>Let’s overview the matrix object. Can you tell difference with data frame?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubVssJ1RydWVSZWN1cnJlbmNlJ11cbmBgYCJ9 -->
-<pre class="r"><code>m[,'TrueRecurrence']</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChtWywnVHJ1ZVJlY3VycmVuY2UnXSlcbmBgYCJ9 -->
+<pre class="r"><code>head(m[,'TrueRecurrence'])</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICBbMV0gXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCJcbiBbMTNdIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMlwiXG4gWzI1XSBcIjJcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjJcIlxuIFszN10gXCIyXCIgXCIxXCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCIxXCIgXCIxXCJcbiBbNDldIFwiMVwiIFwiMVwiIFwiMlwiIFwiMlwiIFwiMVwiIFwiMlwiIFwiMlwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiXG4gWzYxXSBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIlxuIFs3M10gXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCI3XCJcbiBbODVdIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiN1wiIFwiMVwiIFwiMVwiIFwiMVwiXG4gWzk3XSBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIlxuWzEwOV0gXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIyXCIgXCIyXCIgXCIxXCIgXCIxXCJcblsxMjFdIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiNVwiIFwiNVwiIFwiNVwiIFwiNVwiIFwiNVwiIFwiNVwiXG5bMTMzXSBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIlxuWzE0NV0gXCIxXCIgXCIzXCIgXCIzXCIgXCIzXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIyXCIgXCIyXCIgXCIxXCJcblsxNTddIFwiMVwiIFwiMVwiIFwiNlwiIFwiNlwiIFwiNlwiIFwiNlwiIFwiNlwiIFwiNlwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiXG5bMTY5XSBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjRcIiBcIjRcIiBcIjRcIiBcIjRcIiBcIjFcIlxuWzE4MV0gXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIyXCIgXCIyXCIgXCIyXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCJcblsxOTNdIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMlwiIFwiMlwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiXG5bMjA1XSBcIjFcIiBcIjJcIiBcIjJcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIlxuWzIxN10gXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCJcblsyMjldIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiXG5bMjQxXSBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjFcIiBcIjJcIiBcIjJcIiBcIjZcIlxuWzI1M10gXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCI2XCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCIgXCIxXCJcbiJ9 -->
-<pre><code>  [1] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
- [13] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot;
- [25] &quot;2&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot;
- [37] &quot;2&quot; &quot;1&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;1&quot; &quot;1&quot;
- [49] &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
- [61] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
- [73] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;7&quot;
- [85] &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;7&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
- [97] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[109] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;1&quot;
-[121] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;5&quot; &quot;5&quot; &quot;5&quot; &quot;5&quot; &quot;5&quot; &quot;5&quot;
-[133] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[145] &quot;1&quot; &quot;3&quot; &quot;3&quot; &quot;3&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot;
-[157] &quot;1&quot; &quot;1&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[169] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;4&quot; &quot;4&quot; &quot;4&quot; &quot;4&quot; &quot;1&quot;
-[181] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[193] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[205] &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[217] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[229] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;
-[241] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;6&quot;
-[253] &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;6&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiIFwiMVwiXG4ifQ== -->
+<pre><code>[1] &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot; &quot;1&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2002,9 +1936,8 @@ summary(d)</code></pre>
 <p>Why this column contains character? Let’s head the first few lines.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkJFNlaXp1cmVPbnNldERheXMpXG5cbmBgYCJ9 -->
-<pre class="r"><code>head(d$SeizureOnsetDays)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkJFNlaXp1cmVPbnNldERheXMpXG5gYGAifQ== -->
+<pre class="r"><code>head(d$SeizureOnsetDays)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiOTEyXCIgXCIuXCIgICBcIjQ4MFwiIFwiNjkwXCIgXCI3MzBcIiBcIi5cIiAgXG4ifQ== -->
 <pre><code>[1] &quot;912&quot; &quot;.&quot;   &quot;480&quot; &quot;690&quot; &quot;730&quot; &quot;.&quot;  </code></pre>
@@ -2017,9 +1950,8 @@ summary(d)</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkJFNlaXp1cmVzKVxuYGBgIn0= -->
 <pre class="r"><code>head(d$Seizures)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiWVwiICAgICAgIFwiTlwiICAgICAgIFwiWVwiICAgICAgIFwiWVwiICAgICAgIFwiWVwiICAgICAgXG5bNl0gXCJVbmtub3duXCJcbiJ9 -->
-<pre><code>[1] &quot;Y&quot;       &quot;N&quot;       &quot;Y&quot;       &quot;Y&quot;       &quot;Y&quot;      
-[6] &quot;Unknown&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiWVwiICAgICAgIFwiTlwiICAgICAgIFwiWVwiICAgICAgIFwiWVwiICAgICAgIFwiWVwiICAgICAgIFwiVW5rbm93blwiXG4ifQ== -->
+<pre><code>[1] &quot;Y&quot;       &quot;N&quot;       &quot;Y&quot;       &quot;Y&quot;       &quot;Y&quot;       &quot;Unknown&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2057,33 +1989,11 @@ summary(d)</code></pre>
 <p>Then, the question is how can we find the rows with <code>NA</code>? We will ask whether the rows contains <code>NA</code> or not using <code>is.na</code> function. This will return boolean as to <code>NA</code> presence.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaXMubmEoZDEkU2VpenVyZU9uc2V0RGF5czIpXG5gYGAifQ== -->
-<pre class="r"><code>is.na(d1$SeizureOnsetDays2)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChpcy5uYShkMSRTZWl6dXJlT25zZXREYXlzMikpXG5gYGAifQ== -->
+<pre class="r"><code>head(is.na(d1$SeizureOnsetDays2))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICBbMV0gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgIFRSVUUgRkFMU0VcbiAgWzldIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFICBUUlVFIEZBTFNFXG4gWzE3XSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRVxuIFsyNV0gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0VcbiBbMzNdIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG4gWzQxXSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSAgVFJVRVxuIFs0OV0gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0VcbiBbNTddIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFICBUUlVFXG4gWzY1XSBGQUxTRSBGQUxTRSBGQUxTRSAgVFJVRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRVxuIFs3M10gRkFMU0UgRkFMU0UgIFRSVUUgRkFMU0UgRkFMU0UgIFRSVUUgRkFMU0UgRkFMU0VcbiBbODFdIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG4gWzg5XSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSAgVFJVRSBGQUxTRSBGQUxTRVxuIFs5N10gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0VcblsxMDVdIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG5bMTEzXSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRVxuWzEyMV0gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0VcblsxMjldIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG5bMTM3XSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRVxuWzE0NV0gRkFMU0UgRkFMU0UgIFRSVUUgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0VcblsxNTNdIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG5bMTYxXSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRSBGQUxTRVxuWzE2OV0gRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgRkFMU0UgIFRSVUUgRkFMU0UgRkFMU0VcblsxNzddIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG4ifQ== -->
-<pre><code>  [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
-  [9] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
- [17] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
- [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
- [33] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
- [41] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
- [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
- [57] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
- [65] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
- [73] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE
- [81] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
- [89] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
- [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[105] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[113] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[121] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[129] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[137] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[145] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
-[153] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[161] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-[169] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
-[177] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFIEZBTFNFXG4ifQ== -->
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2098,27 +2008,24 @@ summary(d)</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Here you have <code>&lt;</code> in the character so it won’t properly converted to numeric information.</p>
-<p>How about others?</p>
+<p>Here you have <code>&lt;</code> (angle bracket) in the character so it won’t properly converted to numeric information. Did you find more of these cases?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZDFbaXMubmEoZDEkU2VpenVyZU9uc2V0RGF5czIpLF0kU2VpenVyZU9uc2V0RGF5c1xuYGBgIn0= -->
 <pre class="r"><code>d1[is.na(d1$SeizureOnsetDays2),]$SeizureOnsetDays</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIiBcIjwyOFwiICBcIjwzMFwiICBcIjwzNjVcIiBcIjwzNjVcIlxuIFs4XSBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIlxuIn0= -->
-<pre><code> [1] &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;28&quot;  &quot;&lt;30&quot;  &quot;&lt;365&quot; &quot;&lt;365&quot;
- [8] &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIiBcIjwyOFwiICBcIjwzMFwiICBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIiBcIjwzNjVcIlxuIn0= -->
+<pre><code> [1] &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;28&quot;  &quot;&lt;30&quot;  &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot; &quot;&lt;365&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Our <code>NAs</code> all contains <code>&lt;</code> (angle bracket), which we will fix for the analysis.</p>
-<p>For example, we can convert <code>&lt;365</code> into <code>365</code>. One function we can try is <code>gsub</code>. This replace your string into proper format. For example,</p>
+<p>Our <code>NAs</code> all contains <code>&lt;</code>, which prevent converting a character into a numeric.</p>
+<p>We would fix for downstream analyses. For example, we can convert <code>&lt;365</code> into <code>365</code>. One function we can try is <code>gsub</code>. This replace your string into a format that you may not get <code>NA</code>. For example,</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBnc3ViKCdwYXR0ZXJuIGluIHlvdXIgY2hhcmFjdGVyJywgJ25ldyBjaGFyYWN0ZXIgeW91IHdhbnQgdG8gcmVwbGFjZScsIHZlY3RvcnMgZm9yIHlvdXIgY2hhcmFjdGVyKVxuZDEkU2VpenVyZU9uc2V0RGF5czMgPC0gZ3N1YignPCcsICcnLCBkMSRTZWl6dXJlT25zZXREYXlzKVxuXG5oZWFkKGQxJFNlaXp1cmVPbnNldERheXMzKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBnc3ViKCdwYXR0ZXJuIGluIHlvdXIgY2hhcmFjdGVyJywgJ25ldyBjaGFyYWN0ZXIgeW91IHdhbnQgdG8gcmVwbGFjZScsIHZlY3RvcnMgZm9yIHlvdXIgY2hhcmFjdGVyKVxuZDEkU2VpenVyZU9uc2V0RGF5czMgPC0gZ3N1YignPCcsICcnLCBkMSRTZWl6dXJlT25zZXREYXlzKVxuaGVhZChkMSRTZWl6dXJlT25zZXREYXlzMylcbmBgYCJ9 -->
 <pre class="r"><code># gsub('pattern in your character', 'new character you want to replace', vectors for your character)
 d1$SeizureOnsetDays3 &lt;- gsub('&lt;', '', d1$SeizureOnsetDays)
-
 head(d1$SeizureOnsetDays3)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiOTEyXCIgXCI0ODBcIiBcIjY5MFwiIFwiNzMwXCIgXCI1NDdcIiBcIjFcIiAgXG4ifQ== -->
@@ -2126,7 +2033,7 @@ head(d1$SeizureOnsetDays3)</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Let’s convert it into numerics</p>
+<p>Let’s convert them into numerics.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZDEkU2VpenVyZU9uc2V0RGF5czMgPC0gYXMubnVtZXJpYyhkMSRTZWl6dXJlT25zZXREYXlzMylcbmBgYCJ9 -->
@@ -2134,7 +2041,7 @@ head(d1$SeizureOnsetDays3)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Did you get an warning for this? Now we can ask our initial question. When is the earliest day for having seizure?</p>
+<p>Did you get warning for this? Now we can ask our initial question. When is the earliest day for having seizure?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluKGQxJFNlaXp1cmVPbnNldERheXMzKVxuYGBgIn0= -->
@@ -2149,7 +2056,7 @@ head(d1$SeizureOnsetDays3)</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiU0NOMkEgTXV0YXRpb25zIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIFNDTjJBIG11dGF0aW9ucyBmcm9tIFNhbmRlcnMgZXQgYWwuICgyMDE4KQpJbnN0cnVjdG9yOiBKb29uIEFuLCBLb3JlYSBVbml2ZXJzaXR5CkJTTVMyMjIKVXBkYXRlIDIwMTkvMDkvMDMKCipTQ04yQSogaXMgYSB2b2x0YWdlLWdhdGVkIHNvZGl1bSBjaGFubmVsIGdlbmUgdGhhdCBlbmNvZGVzIHRoZSBuZXVyb25hbCBzb2RpdW0gY2hhbm5lbCAqTmFWMS4yKiBhbmQgcGxheXMgYSBjcml0aWNhbCByb2xlIGluIGFjdGlvbiBwb3RlbnRpYWwgaW5pdGlhdGlvbiBkdXJpbmcgZWFybHkgbmV1cm9kZXZlbG9wbWVudC4gVGhlIGxhdGVzdCBzdHVkeSBkZW1vbnN0cmF0ZWQgdGhhdCBpdCBpcyBsb3NzIG9mIGZ1bmN0aW9uIG11dGF0aW9ucyB0aGF0IGluICpTQ04yQSogdGhhdCBsZWFkIHRvIGF1dGlzbSBzcGVjdHJ1bSBkaXNvcmRlcnMgKEFTRCksIGluIGNvbnRyYXN0IHRvIGdhaW4gb2YgZnVuY3Rpb24sIHdoaWNoIGxlYWRzIHRvIGluZmFudGlsZSBzZWl6dXJlcyAoW0Jlbi1TaGFsb20gMjAxOF0oaHR0cHM6Ly93d3cubmNiaS5ubG0ubmloLmdvdi9wbWMvYXJ0aWNsZXMvUE1DNTc5Njc4NS8pKS4gCgpJbiB0aGlzIHR1dG9yaWFsLCB3ZSB3aWxsIGhhbmRsZSBnZW5ldGljIGRhdGEgZm9yICpTQ04yQSogbXV0YXRpb25zIGlkZW50aWZpZWQgaW4gbGF0ZXN0IGdlbm9taWMgc3R1ZGllcywgYW5kIGV4cGxvcmUgdGhlaXIgcGF0dGVybnMgdXNpbmcgUiBiYXNpYyBmdW5jdGlvbnMuIE91ciB0dXRvcmlhbCB3aWxsIHV0aWxpemUgdGhlIHN1bW1hcnkgZGF0YSBmcm9tIFtTYW5kZXJzIGV0IGFsLiAoMjAxOCldKGh0dHBzOi8vd3d3Lm5jYmkubmxtLm5paC5nb3YvcG1jL2FydGljbGVzL1BNQzYwMTU1MzMvKS4gV2UgY2FuIG9idGFpbiB0aGUgbGlzdCBvZiBtdXRhdGlvbnMgaW4gdGhlIHN1cHBsZW1lbnRhcnkgdGFibGUgMSAoVGFibGUgUzEpLgoKIyMgTG9hZCBkYXRhc2V0CgpXZSB3aWxsIHJlYWQgdGhlIHR4dCBmaWxlIGZyb20gdGhlIHNoYXJlZCBEcm9wYm94IGxpbmsgaW50byB5b3VyIHdvcmtzcGFjZS4gVGhlIGZpbGUgaW5jbHVkZXMgdGhlIGZpcnN0IHRhYiBvZiB0aGUgVGFibGUgUzEuIFlvdSB1c2UgYHJlYWQuY3N2YCBmdW5jdGlvbiB0byByZWFkIHRoZSBmaWxlIGZyb20gdGhlIFVSTC4gVGhlbiwgeW91IGNyZWF0ZSB0aGUgYGRgIG9iamVjdC4KCmBgYHtyfQpvcHRpb25zKHN0cmluZ3NBc0ZhY3RvcnMgPSBGKQpkID0gcmVhZC5jc3YoJ2h0dHBzOi8vd3d3LmRyb3Bib3guY29tL3MvaGU3cjZ2NGh4dTBpYm5vL3RhYmxlUzEuU2FuZGVyczIwMTgudHh0P2RsPTEnLCBzZXA9J1x0JykKYGBgCgojIyBFeHBsb3JlIHlvdXIgZGF0YQoKTGV0J3MgZXhwbG9yZSB0aGUgb25lIHlvdSBsb2FkZWQuIEhvdyB3b3VsZCB5b3UgY2hlY2sgdGhlIGNsYXNzIG9mIHRoZSBgZGAgb2JqZWN0PwoKYGBge3J9CiMgUGxlYXNlIHR5cGUgdGhlIGNvbW1hbmQgYmVsb3cKY2xhc3MoZCkKYGBgCgpJdCBzaG93cyB0aGF0IHRoZSBgZGAgb2JqZWN0IGlzICdfX19fX19fX18nLiAKClRoZW4sIGxldCdzIG92ZXJ2aWV3IHRoZSBkYXRhIGZyYW1lLgoKYGBge3J9CmhlYWQoZCkKYGBgCgpZb3UgY2FuIHNlZSBzZXZlcmFsIGNvbHVtbnMgaW4gdGhpcyBkYXRhIGZyYW1lLiBMZXQncyBsb29rIGF0IHRoZSBmaXJzdCBjb2x1bW4gYFBhdGllbnRJRGAgYW5kIGNoZWNrIHdoaWNoIGNsYXNzIGlzLiAKCmBgYHtyfQojIFBsZWFzZSB0eXBlIHRoZSBjb21tYW5kIGJlbG93CmhlYWQoZCRQYXRpZW50SUQpCmBgYAoKUmlnaHQuIEl0J3MgJ19fX19fX19fX19fJy4gSG93IGFib3V0IHRoZSBjbGFzcyBmb3IgdGhlIGNvbHVtbiBgRWZmZWN0YD8KCmBgYHtyfQojIFBsZWFzZSB0eXBlIHRoZSBjb21tYW5kIGJlbG93CmNsYXNzKGQkVHJ1ZVJlY3VycmVuY2UpCmBgYAoKV2UgY2FuIG92ZXJ2aWV3IHRoZSBzdW1tYXJ5IG9mIHRoZSBkYXRhc2V0LiBIb3cgbWFueSBjb2x1bW5zIGhhdmUgYSBjaGFyYWN0ZXIgY2xhc3M/CgpgYGB7cn0KIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvdwpzdW1tYXJ5KGQpCmBgYAoKIyMgQ29udmVydCB5b3VyIGNsYXNzIGludG8gYW5vdGhlciBjbGFzcwoKV2Ugd2lsbCBjb252ZXJ0IHRoZSBkYXRhIGZyYW1lIGludG8gYSBtYXRyaXguIFlvdSBjYW4gdXNlIHRoZSBjb21tYW5kIGNhbGxlZCBgYXMubWF0cml4YC4KCmBgYHtyfQptID0gYXMubWF0cml4KGQpCmBgYAoKTGV0J3Mgb3ZlcnZpZXcgdGhlIG1hdHJpeCBvYmplY3QuIENhbiB5b3UgZmluZCBkaWZmZXJlbmNlIHdpdGggZGF0YSBmcmFtZT8KCmBgYHtyfQptWywnVHJ1ZVJlY3VycmVuY2UnXQpgYGAKCiMjIFN1YnNldHRpbmcgYW5kIFNvcnRpbmcKClNvbWUgcGF0aWVudHMgd2hvIGhhdmUgdGhlIFNDTjJBIG11dGF0aW9uIChoZXJlYWZ0ZXIgY2FsbGVkICJTQ04yQSBwYXRpZW50Iikgb2Z0ZW4gaGF2ZSBzZWl6dXJlcy4gU28gd2Ugd2FudCB0byBrbm93IHdoZW4gdGhlIHNlaXp1cmUgb2NjdXJzIGluIGRldmVsb3BtZW50LgoKTGV0J3MgY2hlY2sgdGhlIGNsYXNzIGZpcnN0LgoKYGBge3J9CmNsYXNzKGQkU2VpenVyZU9uc2V0RGF5cykKYGBgCgpXaHkgdGhpcyBjb2x1bW4gY29udGFpbnMgY2hhcmFjdGVyPyBMZXQncyBoZWFkIHRoZSBmaXJzdCBmZXcgbGluZXMuCgpgYGB7cn0KaGVhZChkJFNlaXp1cmVPbnNldERheXMpCmBgYAoKSXQgc2VlbXMgdGhhdCBzb21lIHJvd3MgY29udGFpbiBzYW1wbGVzIHdobyBkbyBub3QgaGF2ZSBzZWl6dXJlIG9yIHVua25vd24gaW5mb3JtYXRpb24uIEl0J3MgcmVwcmVzZW50ZWQgYnkgYCIuImAsIGFuZCBhbHNvIHJlY29yZGVkIGluIGFub3RoZXIgY29sdW1uIGNhbGxlZCBgU2VpenVyZXNgLgoKYGBge3J9CmhlYWQoZCRTZWl6dXJlcykKYGBgCgpTbyB3ZSB3YW50IHRvIHN1YnNldCByb3dzIHdoZXJlIHRoZSBzZWl6dXJlIHBoZW5vdHlwZSBpcyBhdmFpbGFibGUuCgpgYGB7cn0KZDEgPSBkW2QkU2VpenVyZXM9PSdZJyxdCmBgYAoKTGV0J3Mgc2VlIGhvdyBtYW55IHNhbXBsZXMgaGF2ZSBzZWl6dXJlIHBoZW5vdHlwZXM/ClRoZW4sIHlvdSBjYW4gYXNrIHdoZW4gaXMgdGhlIGVhcmxpZXN0IGRheXMgZm9yIHRoZSByZXByZXNlbnRhdGlvbiBvZiBzZWl6dXJlIHBoZW5vdHlwZT8gSG93IGNhbiB3ZSBjaGVjayB0aGlzPyBUaGUgZmlzcnQsIGFzIHNlZW4gcHJldmlvdXNseSB0aGUgYFNlaXp1cmVPbnNldERheXNgIGNvbHVtbiBpcyBjaGFyYWN0ZXIgc28gd2UgY2Fubm90IGFwcGx5IGZ1bmN0aW9ucyBmb3IgbnVtZXJpYy4gCgpgYGB7cn0KaGVhZChkMSRTZWl6dXJlT25zZXREYXlzKQpgYGAKClNvIHdlIGhhdmUgdG8gY29udmVydCB0aGlzIGludG8gbnVtZXJpYyBmaXJzdC4gCgpgYGB7cn0KZDEkU2VpenVyZU9uc2V0RGF5czIgPC0gYXMubnVtZXJpYyhkMSRTZWl6dXJlT25zZXREYXlzKQpgYGAKCkhtbS4gVGhlcmUncyBhbiB3YXJuaW5nIGZvciBgTkFgIGludHJvZHVjdGlvbi4gVGhpcyBpcyBiZWNhdXNlIHNvbWUgcm93cyBkbyBub3QgaGF2ZSBjaGFyYWN0ZXIgdGhhdCB3ZSBjYW4gcHJvcGVybHkgY29udmVydCBmcm9tIGNoYXJhY3RlciB0byBudW1lcmljLiBTbyBwb3NzaWJsZSBzb2x1dGlvbnMgYXJlIGVpdGhlciB5b3UgY2FuIGJlYXIgd2l0aCB0aGlzIGluIHlvdXIgZG93bnN0cmVhbSBhbmFseXNlcyBvciAyKSBjb252ZXJ0IGNoYXJhY3RlciBpbnRvIGFuIGFwcHJvcHJpYXRlIGZvcm0gb2YgbnVtZXJpYyBjb252ZXJzaW9uLgoKVGhlbiwgdGhlIHF1ZXN0aW9uIGlzIGhvdyBjYW4gd2UgZmluZCB0aGUgcm93cyB3aXRoIGBOQWA/IFdlIHdpbGwgYXNrIHdoZXRoZXIgdGhlIHJvd3MgY29udGFpbnMgYE5BYCBvciBub3QgdXNpbmcgYGlzLm5hYCBmdW5jdGlvbi4gVGhpcyB3aWxsIHJldHVybiBib29sZWFuIGFzIHRvIGBOQWAgcHJlc2VuY2UuCgpgYGB7cn0KaXMubmEoZDEkU2VpenVyZU9uc2V0RGF5czIpCmBgYAoKU2VlIHdlIGNhbiBmaW5kIHNvbWUgcm93cyB3aXRoIGBOQWAuIE9uZSBvZiB0aGVtIGlzIHRoZSA3dGggcm93LiBMZXQncyBzZWUgaG93IGl0IGxvb2tzIGxpa2UuCgpgYGB7cn0KZDEkU2VpenVyZU9uc2V0RGF5c1s3XQpgYGAKCkhlcmUgeW91IGhhdmUgYDxgIGluIHRoZSBjaGFyYWN0ZXIgc28gaXQgd29uJ3QgcHJvcGVybHkgY29udmVydGVkIHRvIG51bWVyaWMgaW5mb3JtYXRpb24uCgpIb3cgYWJvdXQgb3RoZXJzPwoKYGBge3J9CmQxW2lzLm5hKGQxJFNlaXp1cmVPbnNldERheXMyKSxdJFNlaXp1cmVPbnNldERheXMKYGBgCgpPdXIgYE5Bc2AgYWxsIGNvbnRhaW5zIGA8YCAoYW5nbGUgYnJhY2tldCksIHdoaWNoIHdlIHdpbGwgZml4IGZvciB0aGUgYW5hbHlzaXMuIAoKRm9yIGV4YW1wbGUsIHdlIGNhbiBjb252ZXJ0IGA8MzY1YCBpbnRvIGAzNjVgLiBPbmUgZnVuY3Rpb24gd2UgY2FuIHRyeSBpcyBgZ3N1YmAuIFRoaXMgcmVwbGFjZSB5b3VyIHN0cmluZyBpbnRvIHByb3BlciBmb3JtYXQuIEZvciBleGFtcGxlLCAKCmBgYHtyfQojIGdzdWIoJ3BhdHRlcm4gaW4geW91ciBjaGFyYWN0ZXInLCAnbmV3IGNoYXJhY3RlciB5b3Ugd2FudCB0byByZXBsYWNlJywgdmVjdG9ycyBmb3IgeW91ciBjaGFyYWN0ZXIpCmQxJFNlaXp1cmVPbnNldERheXMzIDwtIGdzdWIoJzwnLCAnJywgZDEkU2VpenVyZU9uc2V0RGF5cykKCmhlYWQoZDEkU2VpenVyZU9uc2V0RGF5czMpCmBgYAoKTGV0J3MgY29udmVydCBpdCBpbnRvIG51bWVyaWNzCgpgYGB7cn0KZDEkU2VpenVyZU9uc2V0RGF5czMgPC0gYXMubnVtZXJpYyhkMSRTZWl6dXJlT25zZXREYXlzMykKYGBgCgpEaWQgeW91IGdldCBhbiB3YXJuaW5nIGZvciB0aGlzPwpOb3cgd2UgY2FuIGFzayBvdXIgaW5pdGlhbCBxdWVzdGlvbi4gV2hlbiBpcyB0aGUgZWFybGllc3QgZGF5IGZvciBoYXZpbmcgc2VpenVyZT8KCmBgYHtyfQptaW4oZDEkU2VpenVyZU9uc2V0RGF5czMpCmBgYAoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU0NOMkEgTXV0YXRpb25zIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIFNDTjJBIG11dGF0aW9ucyBmcm9tIFNhbmRlcnMgZXQgYWwuICgyMDE4KQpVcGRhdGU6IDIwMTkvMDkvMDMKCiMjIEJhY2tncm91bmQKCipTQ04yQSogaXMgYSB2b2x0YWdlLWdhdGVkIHNvZGl1bSBjaGFubmVsIGdlbmUgdGhhdCBlbmNvZGVzIHRoZSBuZXVyb25hbCBzb2RpdW0gY2hhbm5lbCAqTmFWMS4yKiBhbmQgcGxheXMgYSBjcml0aWNhbCByb2xlIGluIGFjdGlvbiBwb3RlbnRpYWwgaW5pdGlhdGlvbiBkdXJpbmcgZWFybHkgbmV1cm9kZXZlbG9wbWVudC4gVGhlIGxhdGVzdCBzdHVkeSBkZW1vbnN0cmF0ZWQgdGhhdCBpdCBpcyBsb3NzIG9mIGZ1bmN0aW9uIG11dGF0aW9ucyB0aGF0IGluICpTQ04yQSogdGhhdCBsZWFkIHRvIGF1dGlzbSBzcGVjdHJ1bSBkaXNvcmRlcnMgKEFTRCksIGluIGNvbnRyYXN0IHRvIGdhaW4gb2YgZnVuY3Rpb24sIHdoaWNoIGxlYWRzIHRvIGluZmFudGlsZSBzZWl6dXJlcyAoW0Jlbi1TaGFsb20gMjAxOF0oaHR0cHM6Ly93d3cubmNiaS5ubG0ubmloLmdvdi9wbWMvYXJ0aWNsZXMvUE1DNTc5Njc4NS8pKS4gCgpJbiB0aGlzIHR1dG9yaWFsLCB3ZSB3aWxsIGhhbmRsZSBnZW5ldGljIGRhdGEgZm9yICpTQ04yQSogbXV0YXRpb25zIGlkZW50aWZpZWQgaW4gbGF0ZXN0IGdlbm9taWMgc3R1ZGllcywgYW5kIGV4cGxvcmUgdGhlaXIgcGF0dGVybnMgdXNpbmcgUiBiYXNpYyBmdW5jdGlvbnMuIE91ciB0dXRvcmlhbCB3aWxsIHV0aWxpemUgdGhlIHN1bW1hcnkgZGF0YSBmcm9tIFtTYW5kZXJzIGV0IGFsLiAoMjAxOCldKGh0dHBzOi8vd3d3Lm5jYmkubmxtLm5paC5nb3YvcG1jL2FydGljbGVzL1BNQzYwMTU1MzMvKS4gV2UgY2FuIG9idGFpbiB0aGUgbGlzdCBvZiBtdXRhdGlvbnMgaW4gdGhlIHN1cHBsZW1lbnRhcnkgdGFibGUgMSAoVGFibGUgUzEpLgoKIyMgQWltcwoKV2hhdCB3ZSB3aWxsIGRvIHdpdGggdGhpcyBkYXRhc2V0CgotIEJlIGZhbWlsaWFyIHdpdGggYSBkYXRhIGZyYW1lIGZvcm1hdC4KLSBQcmFjdGljZSBmdW5jdGlvbnMgeW91IGhhdmUgbGVhcm50IGZyb20gdGhlIENoYXB0ZXIgMyBhbmQgNC4KLSBVbmJveGluZyB0aGUgZGF0YXNldCBmcm9tIGEgc2NpZW50aWZpYyBqb3VybmFsIDspCgojIyBMb2FkIGRhdGFzZXQKCldlIHdpbGwgcmVhZCB0aGUgdHh0IGZpbGUgZnJvbSB0aGUgc2hhcmVkIERyb3Bib3ggbGluayBpbnRvIHlvdXIgd29ya3NwYWNlLiBUaGUgZmlsZSBpbmNsdWRlcyB0aGUgZmlyc3QgdGFiIG9mIHRoZSBUYWJsZSBTMS4gWW91IHVzZSBgcmVhZC5jc3ZgIGZ1bmN0aW9uIHRvIHJlYWQgdGhlIGZpbGUgZnJvbSB0aGUgVVJMLiBUaGVuLCB5b3UgY3JlYXRlIHRoZSBgZGAgb2JqZWN0LgoKYGBge3J9Cm9wdGlvbnMoc3RyaW5nc0FzRmFjdG9ycyA9IEYpCmQgPSByZWFkLmNzdignaHR0cHM6Ly93d3cuZHJvcGJveC5jb20vcy9oZTdyNnY0aHh1MGlibm8vdGFibGVTMS5TYW5kZXJzMjAxOC50eHQ/ZGw9MScsIHNlcD0nXHQnKQpgYGAKCiMjIEV4cGxvcmUgeW91ciBkYXRhCgpMZXQncyBleHBsb3JlIHRoZSBvYmplY3QgeW91IGp1c3QgbG9hZGVkLiBIb3cgd291bGQgeW91IGNoZWNrIHRoZSBjbGFzcyBvZiB0aGUgb2JqZWN0IGBkYD8KCmBgYHtyfQojIFBsZWFzZSB0eXBlIHRoZSBjb21tYW5kIGJlbG93CmNsYXNzKGQpCmBgYAoKSXQgc2hvd3MgdGhhdCB0aGUgYGRgIG9iamVjdCBpcyAnX19fX19fX19fJy4gCgpUaGVuLCBsZXQncyBvdmVydmlldyB0aGlzIGRhdGEgZnJhbWUuIFdlIHdpbGwgdXNlIGBoZWFkYCBmdW5jdGlvbiB0byBwcmludCBvdXQgdGhlIGZpcnN0IGZldyBsaW5lcy4KCmBgYHtyfQpoZWFkKGQpCmBgYAoKV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIGluIGEgbm90ZWJvb2sgY2h1bmssIGFuIG91dHB1dCB3aWxsIGJlIHZpc2libGUgaW1tZWRpYXRlbHkgYmVuZWF0aCB0aGUgaW5wdXQuIEZyb20gdGhpcywgeW91IGNhbiBzZWUgc2V2ZXJhbCByb3dzIGFuZCBjb2x1bW5zIGluIHRoZSBkYXRhIGZyYW1lLiBMZXQncyBsb29rIGF0IHRoZSBmaXJzdCBjb2x1bW4gYFBhdGllbnRJRGAgYW5kIGNoZWNrIHdoaWNoIGNsYXNzIGl0IGlzLiAKCmBgYHtyfQojIFBsZWFzZSB0eXBlIHRoZSBjb21tYW5kIGJlbG93CmhlYWQoZCRQYXRpZW50SUQpCmBgYAoKUmlnaHQuIEl0J3MgJ19fX19fX19fX19fJy4gSG93IGFib3V0IHRoZSBjbGFzcyBvZiB0aGUgY29sdW1uIGBFZmZlY3RgPwoKYGBge3J9CiMgUGxlYXNlIHR5cGUgdGhlIGNvbW1hbmQgYmVsb3cKY2xhc3MoZCRUcnVlUmVjdXJyZW5jZSkKYGBgCgpUbyBjaGVjayB0aGUgY2xhc3Mgb2YgY29sdW1ucywgeW91IGRvbid0IG5lZWQgdG8gdHlwZSBhbiBpbmRpdmlkdWFsIGNvbHVtbi4gV2UgY2FuIG92ZXJ2aWV3IHRoZSBzdW1tYXJ5IG9mIHRoZSBkYXRhc2V0IHVzaW5nIGBzdW1tYXJ5YCBmdW5jdGlvbi4gV2hpY2ggY29sdW1uIGhhcyB0aGUgYGNoYXJhY3RlcmAgY2xhc3M/CgpgYGB7cn0KIyBQbGVhc2UgdHlwZSB0aGUgY29tbWFuZCBiZWxvdwpzdW1tYXJ5KGQpCmBgYAoKIyMgRGlmZmVyZW5jZSBiZXR3ZWVuIGRhdGEgZnJhbWUgYW5kIG1hdHJpeAoKSGVyZSB3ZSB3aWxsIGNvbnZlcnQgdGhlIGRhdGEgZnJhbWUgaW50byBhIG1hdHJpeCwgYW5kIGNvbXBhcmUgd2hpY2ggcGFydCB3aWxsIGJlIGRpZmZlcmVudCBpbiB0aGlzLiBUbyBjb252ZXJ0IGEgZGF0YSBmcmFtZSBpbnRvIGEgbWF0cml4LCB5b3UgY2FuIHVzZSB0aGUgY29tbWFuZCBjYWxsZWQgYGFzLm1hdHJpeGAuCgpgYGB7cn0KbSA9IGFzLm1hdHJpeChkKQpgYGAKCkxldCdzIG92ZXJ2aWV3IHRoZSBtYXRyaXggb2JqZWN0LiBDYW4geW91IHRlbGwgZGlmZmVyZW5jZSB3aXRoIGRhdGEgZnJhbWU/CgpgYGB7cn0KaGVhZChtWywnVHJ1ZVJlY3VycmVuY2UnXSkKYGBgCgojIyBTdWJzZXR0aW5nIGFuZCBTb3J0aW5nCgpTb21lIHBhdGllbnRzIHdobyBoYXZlIHRoZSBTQ04yQSBtdXRhdGlvbiAoaGVyZWFmdGVyIGNhbGxlZCAiU0NOMkEgcGF0aWVudCIpIG9mdGVuIGhhdmUgc2VpenVyZXMuIFNvIHdlIHdhbnQgdG8ga25vdyB3aGVuIHRoZSBzZWl6dXJlIG9jY3VycyBpbiBkZXZlbG9wbWVudC4KCkxldCdzIGNoZWNrIHRoZSBjbGFzcyBmaXJzdC4KCmBgYHtyfQpjbGFzcyhkJFNlaXp1cmVPbnNldERheXMpCmBgYAoKV2h5IHRoaXMgY29sdW1uIGNvbnRhaW5zIGNoYXJhY3Rlcj8gTGV0J3MgaGVhZCB0aGUgZmlyc3QgZmV3IGxpbmVzLgoKYGBge3J9CmhlYWQoZCRTZWl6dXJlT25zZXREYXlzKQpgYGAKCkl0IHNlZW1zIHRoYXQgc29tZSByb3dzIGNvbnRhaW4gc2FtcGxlcyB3aG8gZG8gbm90IGhhdmUgc2VpenVyZSBvciB1bmtub3duIGluZm9ybWF0aW9uLiBJdCdzIHJlcHJlc2VudGVkIGJ5IGAiLiJgLCBhbmQgYWxzbyByZWNvcmRlZCBpbiBhbm90aGVyIGNvbHVtbiBjYWxsZWQgYFNlaXp1cmVzYC4KCmBgYHtyfQpoZWFkKGQkU2VpenVyZXMpCmBgYAoKU28gd2Ugd2FudCB0byBzdWJzZXQgcm93cyB3aGVyZSB0aGUgc2VpenVyZSBwaGVub3R5cGUgaXMgYXZhaWxhYmxlLgoKYGBge3J9CmQxID0gZFtkJFNlaXp1cmVzPT0nWScsXQpgYGAKCkxldCdzIHNlZSBob3cgbWFueSBzYW1wbGVzIGhhdmUgc2VpenVyZSBwaGVub3R5cGVzPwpUaGVuLCB5b3UgY2FuIGFzayB3aGVuIGlzIHRoZSBlYXJsaWVzdCBkYXlzIGZvciB0aGUgcmVwcmVzZW50YXRpb24gb2Ygc2VpenVyZSBwaGVub3R5cGU/IEhvdyBjYW4gd2UgY2hlY2sgdGhpcz8gVGhlIGZpc3J0LCBhcyBzZWVuIHByZXZpb3VzbHkgdGhlIGBTZWl6dXJlT25zZXREYXlzYCBjb2x1bW4gaXMgY2hhcmFjdGVyIHNvIHdlIGNhbm5vdCBhcHBseSBmdW5jdGlvbnMgZm9yIG51bWVyaWMuIAoKYGBge3J9CmhlYWQoZDEkU2VpenVyZU9uc2V0RGF5cykKYGBgCgpTbyB3ZSBoYXZlIHRvIGNvbnZlcnQgdGhpcyBpbnRvIG51bWVyaWMgZmlyc3QuIAoKYGBge3J9CmQxJFNlaXp1cmVPbnNldERheXMyIDwtIGFzLm51bWVyaWMoZDEkU2VpenVyZU9uc2V0RGF5cykKYGBgCgpIbW0uIFRoZXJlJ3MgYW4gd2FybmluZyBmb3IgYE5BYCBpbnRyb2R1Y3Rpb24uIFRoaXMgaXMgYmVjYXVzZSBzb21lIHJvd3MgZG8gbm90IGhhdmUgY2hhcmFjdGVyIHRoYXQgd2UgY2FuIHByb3Blcmx5IGNvbnZlcnQgZnJvbSBjaGFyYWN0ZXIgdG8gbnVtZXJpYy4gU28gcG9zc2libGUgc29sdXRpb25zIGFyZSBlaXRoZXIgeW91IGNhbiBiZWFyIHdpdGggdGhpcyBpbiB5b3VyIGRvd25zdHJlYW0gYW5hbHlzZXMgb3IgMikgY29udmVydCBjaGFyYWN0ZXIgaW50byBhbiBhcHByb3ByaWF0ZSBmb3JtIG9mIG51bWVyaWMgY29udmVyc2lvbi4KClRoZW4sIHRoZSBxdWVzdGlvbiBpcyBob3cgY2FuIHdlIGZpbmQgdGhlIHJvd3Mgd2l0aCBgTkFgPyBXZSB3aWxsIGFzayB3aGV0aGVyIHRoZSByb3dzIGNvbnRhaW5zIGBOQWAgb3Igbm90IHVzaW5nIGBpcy5uYWAgZnVuY3Rpb24uIFRoaXMgd2lsbCByZXR1cm4gYm9vbGVhbiBhcyB0byBgTkFgIHByZXNlbmNlLgoKYGBge3J9CmhlYWQoaXMubmEoZDEkU2VpenVyZU9uc2V0RGF5czIpKQpgYGAKClNlZSB3ZSBjYW4gZmluZCBzb21lIHJvd3Mgd2l0aCBgTkFgLiBPbmUgb2YgdGhlbSBpcyB0aGUgN3RoIHJvdy4gTGV0J3Mgc2VlIGhvdyBpdCBsb29rcyBsaWtlLgoKYGBge3J9CmQxJFNlaXp1cmVPbnNldERheXNbN10KYGBgCgpIZXJlIHlvdSBoYXZlIGA8YCAoYW5nbGUgYnJhY2tldCkgaW4gdGhlIGNoYXJhY3RlciBzbyBpdCB3b24ndCBwcm9wZXJseSBjb252ZXJ0ZWQgdG8gbnVtZXJpYyBpbmZvcm1hdGlvbi4gRGlkIHlvdSBmaW5kIG1vcmUgb2YgdGhlc2UgY2FzZXM/CgpgYGB7cn0KZDFbaXMubmEoZDEkU2VpenVyZU9uc2V0RGF5czIpLF0kU2VpenVyZU9uc2V0RGF5cwpgYGAKCk91ciBgTkFzYCBhbGwgY29udGFpbnMgYDxgLCB3aGljaCBwcmV2ZW50IGNvbnZlcnRpbmcgYSBjaGFyYWN0ZXIgaW50byBhIG51bWVyaWMuCgpXZSB3b3VsZCBmaXggZm9yIGRvd25zdHJlYW0gYW5hbHlzZXMuIEZvciBleGFtcGxlLCB3ZSBjYW4gY29udmVydCBgPDM2NWAgaW50byBgMzY1YC4gT25lIGZ1bmN0aW9uIHdlIGNhbiB0cnkgaXMgYGdzdWJgLiBUaGlzIHJlcGxhY2UgeW91ciBzdHJpbmcgaW50byBhIGZvcm1hdCB0aGF0IHlvdSBtYXkgbm90IGdldCBgTkFgLiBGb3IgZXhhbXBsZSwgCgpgYGB7cn0KIyBnc3ViKCdwYXR0ZXJuIGluIHlvdXIgY2hhcmFjdGVyJywgJ25ldyBjaGFyYWN0ZXIgeW91IHdhbnQgdG8gcmVwbGFjZScsIHZlY3RvcnMgZm9yIHlvdXIgY2hhcmFjdGVyKQpkMSRTZWl6dXJlT25zZXREYXlzMyA8LSBnc3ViKCc8JywgJycsIGQxJFNlaXp1cmVPbnNldERheXMpCmhlYWQoZDEkU2VpenVyZU9uc2V0RGF5czMpCmBgYAoKTGV0J3MgY29udmVydCB0aGVtIGludG8gbnVtZXJpY3MuCgpgYGB7cn0KZDEkU2VpenVyZU9uc2V0RGF5czMgPC0gYXMubnVtZXJpYyhkMSRTZWl6dXJlT25zZXREYXlzMykKYGBgCgpEaWQgeW91IGdldCB3YXJuaW5nIGZvciB0aGlzPwpOb3cgd2UgY2FuIGFzayBvdXIgaW5pdGlhbCBxdWVzdGlvbi4gV2hlbiBpcyB0aGUgZWFybGllc3QgZGF5IGZvciBoYXZpbmcgc2VpenVyZT8KCmBgYHtyfQptaW4oZDEkU2VpenVyZU9uc2V0RGF5czMpCmBgYAoKCgoKCg==</div>
 
 
 

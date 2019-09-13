@@ -4,13 +4,21 @@ output: html_notebook
 ---
 
 # SCN2A mutations from Sanders et al. (2018)
-Instructor: Joon An, Korea University
-BSMS222
-Update 2019/09/03
+Update: 2019/09/03
+
+## Background
 
 *SCN2A* is a voltage-gated sodium channel gene that encodes the neuronal sodium channel *NaV1.2* and plays a critical role in action potential initiation during early neurodevelopment. The latest study demonstrated that it is loss of function mutations that in *SCN2A* that lead to autism spectrum disorders (ASD), in contrast to gain of function, which leads to infantile seizures ([Ben-Shalom 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5796785/)). 
 
 In this tutorial, we will handle genetic data for *SCN2A* mutations identified in latest genomic studies, and explore their patterns using R basic functions. Our tutorial will utilize the summary data from [Sanders et al. (2018)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6015533/). We can obtain the list of mutations in the supplementary table 1 (Table S1).
+
+## Aims
+
+What we will do with this dataset
+
+- Be familiar with a data frame format.
+- Practice functions you have learnt from the Chapter 3 and 4.
+- Unboxing the dataset from a scientific journal ;)
 
 ## Load dataset
 
@@ -23,7 +31,7 @@ d = read.csv('https://www.dropbox.com/s/he7r6v4hxu0ibno/tableS1.Sanders2018.txt?
 
 ## Explore your data
 
-Let's explore the one you loaded. How would you check the class of the `d` object?
+Let's explore the object you just loaded. How would you check the class of the object `d`?
 
 ```{r}
 # Please type the command below
@@ -32,45 +40,45 @@ class(d)
 
 It shows that the `d` object is '_________'. 
 
-Then, let's overview the data frame.
+Then, let's overview this data frame. We will use `head` function to print out the first few lines.
 
 ```{r}
 head(d)
 ```
 
-You can see several columns in this data frame. Let's look at the first column `PatientID` and check which class is. 
+When you execute code in a notebook chunk, an output will be visible immediately beneath the input. From this, you can see several rows and columns in the data frame. Let's look at the first column `PatientID` and check which class it is. 
 
 ```{r}
 # Please type the command below
 head(d$PatientID)
 ```
 
-Right. It's '___________'. How about the class for the column `Effect`?
+Right. It's '___________'. How about the class of the column `Effect`?
 
 ```{r}
 # Please type the command below
 class(d$TrueRecurrence)
 ```
 
-We can overview the summary of the dataset. How many columns have a character class?
+To check the class of columns, you don't need to type an individual column. We can overview the summary of the dataset using `summary` function. Which column has the `character` class?
 
 ```{r}
 # Please type the command below
 summary(d)
 ```
 
-## Convert your class into another class
+## Difference between data frame and matrix
 
-We will convert the data frame into a matrix. You can use the command called `as.matrix`.
+Here we will convert the data frame into a matrix, and compare which part will be different in this. To convert a data frame into a matrix, you can use the command called `as.matrix`.
 
 ```{r}
 m = as.matrix(d)
 ```
 
-Let's overview the matrix object. Can you find difference with data frame?
+Let's overview the matrix object. Can you tell difference with data frame?
 
 ```{r}
-m[,'TrueRecurrence']
+head(m[,'TrueRecurrence'])
 ```
 
 ## Subsetting and Sorting
@@ -119,7 +127,7 @@ Hmm. There's an warning for `NA` introduction. This is because some rows do not 
 Then, the question is how can we find the rows with `NA`? We will ask whether the rows contains `NA` or not using `is.na` function. This will return boolean as to `NA` presence.
 
 ```{r}
-is.na(d1$SeizureOnsetDays2)
+head(is.na(d1$SeizureOnsetDays2))
 ```
 
 See we can find some rows with `NA`. One of them is the 7th row. Let's see how it looks like.
@@ -128,32 +136,29 @@ See we can find some rows with `NA`. One of them is the 7th row. Let's see how i
 d1$SeizureOnsetDays[7]
 ```
 
-Here you have `<` in the character so it won't properly converted to numeric information.
-
-How about others?
+Here you have `<` (angle bracket) in the character so it won't properly converted to numeric information. Did you find more of these cases?
 
 ```{r}
 d1[is.na(d1$SeizureOnsetDays2),]$SeizureOnsetDays
 ```
 
-Our `NAs` all contains `<` (angle bracket), which we will fix for the analysis. 
+Our `NAs` all contains `<`, which prevent converting a character into a numeric.
 
-For example, we can convert `<365` into `365`. One function we can try is `gsub`. This replace your string into proper format. For example, 
+We would fix for downstream analyses. For example, we can convert `<365` into `365`. One function we can try is `gsub`. This replace your string into a format that you may not get `NA`. For example, 
 
 ```{r}
 # gsub('pattern in your character', 'new character you want to replace', vectors for your character)
 d1$SeizureOnsetDays3 <- gsub('<', '', d1$SeizureOnsetDays)
-
 head(d1$SeizureOnsetDays3)
 ```
 
-Let's convert it into numerics
+Let's convert them into numerics.
 
 ```{r}
 d1$SeizureOnsetDays3 <- as.numeric(d1$SeizureOnsetDays3)
 ```
 
-Did you get an warning for this?
+Did you get warning for this?
 Now we can ask our initial question. When is the earliest day for having seizure?
 
 ```{r}
