@@ -1,37 +1,15 @@
-## Welcome to GitHub Pages
+## Welcome to BSMS222 tutorial sets
 
-You can use the [editor on GitHub](https://github.com/joonan30/bsms222_123_an/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is the repository to list of the R notebooks in our Biostatistics lecture. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+If you want to access files, please click the link below. It will direct to the link you can preview a html output. Or you can copy the file link using `wget` like: 
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+> wget <file link>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Please note that the link has to be from the raw github file.
 
-### Jekyll Themes
+### Analysis of SCN2A mutations 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/joonan30/bsms222_123_an/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+[Mutation list from Sanders et al 2018](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.nb.html)([raw file](https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.Rmd)) 
