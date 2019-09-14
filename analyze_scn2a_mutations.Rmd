@@ -6,13 +6,15 @@ output: html_notebook
 # SCN2A mutations from Sanders et al. (2018)
 Update: 2019/09/03
 
-### Background
+## 1. Intro
+
+### 1.1. Background
 
 *SCN2A* is a voltage-gated sodium channel gene that encodes the neuronal sodium channel *NaV1.2* and plays a critical role in action potential initiation during early neurodevelopment. The latest study demonstrated that it is loss of function mutations that in *SCN2A* that lead to autism spectrum disorders (ASD), in contrast to gain of function, which leads to infantile seizures ([Ben-Shalom 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5796785/)). 
 
 In this tutorial, we will handle genetic data for *SCN2A* mutations identified in latest genomic studies, and explore their patterns using R basic functions. Our tutorial will utilize the summary data from [Sanders et al. (2018)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6015533/). We can obtain the list of mutations in the supplementary table 1 (Table S1).
 
-### Aims
+### 1.2. Aims
 
 What we will do with this dataset
 
@@ -20,7 +22,9 @@ What we will do with this dataset
 - Practice functions you have learnt from the Chapter 3 and 4.
 - Unboxing the dataset from a scientific journal ;)
 
-## Load dataset
+## 2. Explore your data
+
+### 2.1. Unboxing your dataset
 
 We will read the txt file from the shared Dropbox link into your workspace. The file includes the first tab of the Table S1. You use `read.csv` function to read the file from the URL. Then, you create the `d` object.
 
@@ -28,8 +32,6 @@ We will read the txt file from the shared Dropbox link into your workspace. The 
 options(stringsAsFactors = F)
 d = read.csv('https://www.dropbox.com/s/he7r6v4hxu0ibno/tableS1.Sanders2018.txt?dl=1', sep='\t')
 ```
-
-## Explore your data
 
 Let's explore the object you just loaded. How would you check the class of the object `d`?
 
@@ -67,7 +69,7 @@ To check the class of columns, you don't need to type an individual column. We c
 summary(d)
 ```
 
-## Difference between data frame and matrix
+### 2.2. Difference between data frame and matrix
 
 Here we will convert the data frame into a matrix, and compare which part will be different in this. To convert a data frame into a matrix, you can use the command called `as.matrix`.
 
@@ -81,7 +83,9 @@ Let's overview the matrix object. Can you tell difference with data frame?
 head(m[,'TrueRecurrence'])
 ```
 
-## Subsetting and Sorting
+---
+
+### 2.3. Subsetting and Sorting
 
 Some patients who have the SCN2A mutation (hereafter called "SCN2A patient") often have seizures. So we want to know when the seizure occurs in development.
 
@@ -166,32 +170,78 @@ min(d1$SeizureOnsetDays3)
 ```
 
 
-## Exercise
+### 2.4. Exercises
 
 - Load the dataset using functions from the `tibble` package.
 - Describe columns and set up a plan for downstream analyses.
 - Explore other columns for frequency.
 
-## Where is the genetic variants occurring? For-loops and Vectorization
+---
 
-The dataset includes two columns - `c.DNA` and `p.Protein` for the position of the genetic mutations in SCN2A. From this information, what can we analyze further?
+## 3. More details in SCN2A mutations
 
-1. Finding the position of the genetic mutations within SCN2A. Which information you would use?
-2. Counting the recurrent mutations at the same position (in other words, the same mutations from different patients), and examine whether the patients have similar phenotype.
-3. Finding the position where different consequence or amino acid change of mutations occur. Please note that "consequences" are loss-of-function (Nonsense, Frameshift) or missense. 
-4. Sketch your plot for visualising your analysis.
+The dataset contains more details for genetic mutations in SCN2A patients. From this information, what can we analyze further? Here I list up few questions we can examine further. 
 
+
+- Finding the position of the genetic mutations within SCN2A. Which information you would use? If you are not familiar with positional information on genetic variants (or mutations), please find the **Figure 1** or slides [Mutation from the Genetics BSMS205](https://docs.google.com/presentation/d/1-HXAbXKSBv8TrirsTwn9ZwRMki5TAau1f-t9EooMSkM/edit?usp=sharing).
+- Counting the recurrent mutations at the same position (in other words, the same mutations from different patients), and examine whether the patients have similar phenotype.
+- Finding the position where different consequences mutations occur. Please note that "consequences" are loss-of-function (Nonsense, Frameshift) or missense. 
+- Sketch a plot for visualising your analysis.
 
 <img src="https://ars.els-cdn.com/content/image/1-s2.0-S1525157810603546-gr2.gif" width="500">
 
 **Figure 1. Standard mutation nomenclature** ([Ogino et al. 2007](https://www.sciencedirect.com/science/article/pii/S1525157810603546)). According to this guideline, genetic mutations can be represented for coding DNA reference sequences (`c.` prefix ) and protein-level amino acid sequences (`p.` prefix). 
 
+### 3.1. For-loops and Vectorization
+
+Here we examine more details of genetic mutations as to their functional consequence and position of SCN2A mutations. In the dataset includes, there are two columns called `c.DNA` and `p.Protein`, containing the cDNA or protein position for the genetic mutations. 
+
+During these exercises, we will look at the concept of `for-loop` and `vectorization`, which you learn from the Chapter 4.4 and 4.5. Let's look at the column `p.Protein`. It contains protein positions from each patient. What would you check at the first place? 
+
+- task 1
+- task 2
+- task 3
+- task N
+
+```{r}
+# Write down your code to explore this column. 
+
+```
+
+If you need more information on SCN2A, please visit [the Uniprot page for SCN2A](https://www.uniprot.org/uniprot/Q99250)
+
+Then, I would remove the characters from the string so we can have only numerics for positions. Here I use `gsub` function to extract numerics from string. 
 
 ```{r}
 # Remove non-numeric characters from the string
 gsub('[^0-9]', '', 'p.R102X')
 ```
 
+In the dataset, we have many rows for protein positions. One way we might try is to set up `for-loop` to process each row. 
+
+```{r}
+# Please write a code
+```
+
+Do you think this is an effective approach? As we have done in your assignment, `for-loop` is not great choice to process vectors because R can enable `______________` for a shorter and clearer code. So this mean you can apply `gsub` on vector and return your output to another column (could be new assign). 
+
+```{r}
+# Please write a code
+```
+
+### 3.2. Counting the recurrent mutations
+
+```{r}
+# Please write a code
+```
 
 
+### 3.3. Finding the position where different consequences of mutations occur
 
+```{r}
+# Please write a code
+```
+
+### 3.4. Sketch a plot for visualising your analysis
+
+Please submit your hand-drawing for the plot you would like to create. 
