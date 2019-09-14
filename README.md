@@ -12,7 +12,11 @@ Please note that the link has to be from the raw github file.
 
 ### Tutorials
 
-- [Explore SCN2A mutations collected from Sanders et al 2018](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.nb.html) ([raw file](https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.Rmd)). This is a tutorial for autodidact who just finished the Rafa book's chapter 3 and 4.  
+- [Explore SCN2A mutations collected from Sanders et al 2018](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.nb.html) ([raw file](https://raw.githubusercontent.com/joonan30/bsms222_123_an/master/analyze_scn2a_mutations.Rmd)). This is a tutorial for autodidact who just finished the Rafa book's chapter 3 and 4.  
+
+```
+wget https://raw.githubusercontent.com/joonan30/bsms222_123_an/master/analyze_scn2a_mutations.Rmd
+```
 
 - Explore gene annotations for the human genome. This is a tutorial for the chapter 5, tidyverse. Here we deal with many cases in data munging for gene annotations. It is a welcoming kit for modern biologists. 
 
