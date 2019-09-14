@@ -172,5 +172,27 @@ min(d1$SeizureOnsetDays3)
 - Describe columns and set up a plan for downstream analyses.
 - Explore other columns for frequency.
 
+## Where is the genetic variants occurring? For-loops and Vectorization
+
+The dataset includes two columns - `c.DNA` and `p.Protein` for the position of the genetic mutations in SCN2A. From this information, what can we analyze further?
+
+1. Finding the position of the genetic mutations within SCN2A. Which information you would use?
+2. Counting the recurrent mutations at the same position (in other words, the same mutations from different patients), and examine whether the patients have similar phenotype.
+3. Finding the position where different consequence or amino acid change of mutations occur. Please note that "consequences" are loss-of-function (Nonsense, Frameshift) or missense. 
+4. Think about the scheme for visualizing the mutation positions. 
+
+
+
+<img src="https://ars.els-cdn.com/content/image/1-s2.0-S1525157810603546-gr2.gif" width="500">
+
+**Figure 1. Standard mutation nomenclature** ([Ogino et al. 2007](https://www.sciencedirect.com/science/article/pii/S1525157810603546)). According to this guideline, genetic mutations can be represented for coding DNA reference sequences (`c.` prefix ) and protein-level amino acid sequences (`p.` prefix). 
+
+
+```{r}
+# Remove non-numeric characters from the string
+gsub('[^0-9]', '', 'p.R102X')
+```
+
+
 
 
