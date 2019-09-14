@@ -179,8 +179,7 @@ The dataset includes two columns - `c.DNA` and `p.Protein` for the position of t
 1. Finding the position of the genetic mutations within SCN2A. Which information you would use?
 2. Counting the recurrent mutations at the same position (in other words, the same mutations from different patients), and examine whether the patients have similar phenotype.
 3. Finding the position where different consequence or amino acid change of mutations occur. Please note that "consequences" are loss-of-function (Nonsense, Frameshift) or missense. 
-4. Think about the scheme for visualizing the mutation positions. 
-
+4. Sketch your plot for visualising your analysis.
 
 
 <img src="https://ars.els-cdn.com/content/image/1-s2.0-S1525157810603546-gr2.gif" width="500">
