@@ -15,7 +15,7 @@ One of well-known collaborative efforts in gene annotation is [the GENCODE conso
 
 In this tutorial, we will access to gene annotation from the GENCODE consortium and explore genes and functional elements in our genome. 
 
-## 1.2. Aims
+### 1.2. Aims
 
 What we will do with this dataset:
 
