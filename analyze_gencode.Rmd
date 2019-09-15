@@ -1,0 +1,148 @@
+---
+title: "Gene annotations for the human genome"
+output: html_notebook
+---
+Update: 2019/09/15
+
+## 1. Intro
+
+### 1.1. What is gene annotation?
+Over the past years, we have learnt that there are a number of chromosomes and genes in our genome. Counting the number of chromosomes is fairly easy but students might find difficult to say how many genes we have in our genome. If you can get an answer for this, could you tell how many genes encode protein and how many do not? 
+
+To answer this question, we need to access the database for gene annotation. Gene annotation is the process of making nucleotide sequence meaningful - where genes are located? whether it is protein-coding or noncoding. If you would like to get an overview of gene annotation, please find this [link](http://www.biolyse.ca/what-is-gene-annotation-in-bioinformatics/). 
+
+One of well-known collaborative efforts in gene annotation is [the GENCODE consortium](https://www.gencodegenes.org/pages/gencode.html). It is a part of the Encyclopedia of DNA Elements (The ENCODE project consortium) and aims to identify all gene features in the human genome using a combination of computational analysis, manual annotation, and experimental validation ([Harrow et al. 2012](https://genome.cshlp.org/content/22/9/1760.full.html)). 
+
+In this tutorial, we will access to gene annotation from the GENCODE consortium and explore genes and functional elements in our genome. 
+
+## 1.2. Aims
+
+What we will do with this dataset:
+
+- Be familiar with gene annotation modality.
+- Tidy data and create a table for your analysis.
+- Apply `tidyverse` functions for data munging.
+
+Please note that there is better solution for getting gene annotation in R if you use a biomart. Our tutorial is only designed to have a practice on `tidyverse` exercise. 
+
+## 2. Explore your data
+
+### 2.1. Unboxing your dataset
+
+This tutorial will use a gene annotation file from the GENCODE. You will need to download the file from the GENCODE. If you are using terminal, please download file using `wget`:
+
+
+```{bash}
+wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.basic.annotation.gtf.gz
+```
+
+Once you download the file, you can print out the first few lines using the following bash command (we will learn UNIX commands later):
+
+```{bash}
+gzcat gencode.v31.basic.annotation.gtf.gz | head
+
+##description: evidence-based annotation of the human genome (GRCh38), version 31 (Ensembl 97)
+##provider: GENCODE
+##contact: gencode-help@ebi.ac.uk
+##format: gtf
+##date: 2019-06-27
+chr1	HAVANA	gene	11869	14409	.	+	.	gene_id "ENSG00000223972.5"; gene_type "transcribed_unprocessed_pseudogene"; gene_name "DDX11L1"; level 2; hgnc_id "HGNC:37102"; havana_gene "OTTHUMG00000000961.2";
+```
+
+The file is [the GFT file format](https://www.ensembl.org/info/website/upload/gff.html), which you will find most commonly in gene annotation. Please read the file format thoroughly in the link above. 
+
+For the tutorial, we need to load two packages. If the package is not installed in your system, please install it. 
+
+- `tidyverse`, a package you have learnt from the chapter 5.
+- `readr`, a package provides a fast and friendly way to read. Since the file `gencode.v31.basic.annotation.gtf.gz` is pretty large, you will need some function to load data quickly into your workspace.
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+Let's load the GTF file into your workspace. We will use `read_delim` function from the `readr` package. This is much faster loading than `read.delim` or `read.csv` from R base. However, some parameters and output class for `read_delim` are slightly different from them.
+
+```{r}
+d = read_delim('gencode.v31.basic.annotation.gtf.gz', 
+               delim='\t', skip = 5, progress = F, 
+               col_names = F)
+```
+
+Can you find out what the parameters mean?  Few things to note are:
+
+- The GTF file contains the first few lines for comments (`#`). In general, the file contains description, provider, date, format. 
+- The GTF file does not have column names so you will need to assign `FALSE for col_names.
+
+Now you can check the class of the object `d`. 
+
+```{r}
+class(d)
+```
+
+Please note that this is a  `tibble data frame`, not a data frame as you get in `read.csv`. The `readr` package is a part of `tidyverse` so it follows `tibble`, reading a delimited file (including csv & tsv) into a tibble ([link](https://readr.tidyverse.org/reference/read_delim.html)). 
+
+Let's overview few lines from the tibble data frame, and explore what you get in this object. 
+
+```{r}
+head(d)
+```
+
+One thing you can find is that there is no columns in the data frame. Let's match which information is provided in columns. You can find the instruction page in the website ([link](https://www.gencodegenes.org/pages/data_format.html)). 
+
+Based on this, you can assign a name for 9 columns. One thing to remember is you should not use space for the column name. Spacing in the column name is actually working but not a good habit for your code. So please replace a space with `underscore` in the column name. 
+
+```{r}
+# Assign column names according to the GENCODE instruction.
+cols = c('chrom', 'source', 'feature_type', 'start', 'end', 'score', 'strand', 'phase', 'info')
+```
+
+Now you can set up the column names into the `col_names` parameter, and load the file into a data frame. 
+
+```{r}
+d = read_delim('gencode.v31.basic.annotation.gtf.gz', 
+               delim='\t', skip = 5, 
+               progress = F,
+               col_names = cols)
+```
+
+You can find the column names are now all set.
+
+```{r}
+head(d)
+```
+
+When you loaded the file, you see the message about the data class. You might want to overview this data.
+
+```{r}
+# Please write a code
+```
+
+### 2.2. How many feature types in the GENCODE dataset?
+
+As instructed in the GENCODE website, the GENCODE dataset provides a range of annotations for the feature type. You can check feature types using `____` function.
+
+```{r}
+# Please write a code
+```
+
+How many feature types provided in the GENCODE? And how many items stored for each feature type? Please write down the number of feature types from the dataset. Also, if you are not familiar with these types, it would be good to put one or two sentences that can describe each type).
+
+- gene (N=XX,XXX)
+- ?
+- ?
+- ?
+- ?
+- ?
+- ?
+
+### 2.3. How many genes we have?
+
+Let's count the number of genes in our genome. Since we know that the column `feature_type` contains rows with `gene`, which contains obviously annotations for genes. We might want to subset those rows from the data frame.  
+
+
+```{r}
+# Please write a code
+```
+
+
