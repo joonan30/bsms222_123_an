@@ -230,12 +230,38 @@ Do you think this is an effective approach? As we have done in your assignment, 
 
 ### 3.2. Counting the recurrent mutations
 
+Recurrent mutations are the ones that the same genetic mutations occur in multiple individuals. Recurrent mutations can be common 1) when the mutation does not affect on natural selection, 2) when the mutation is beneficial, 3) in the hospot for a disease or strongly associated with trait. However, given we are dealing with the genetic mutations from rare disorders, the mutations in the dataset are supposed to be uniquely present in general population. Otherwise, the recurrent mutations can indicate strong association with the phenotype. 
+
+To assess the recurrent mutations, the first thing we can try is to examine whether the same mutations occur in multiple individuals. Since the dataset contains individual patients for each row, we can simply check the frequency using: 
+
+```{r}
+# Please write a code
+```
+
+or we can check the number of unique variants in the dataset by:
+
+```{r}
+# Please write a code
+```
+
+How many unique variants you can find? and which variants are occurred in multiple times?
+
+Then, you can use other columns to check frequency for different groups. Which columns you can use for more grouping?
+
+- ?
+- ?
+- ?
+
+If you find that, please check the recurrent mutations for each group.
+
 ```{r}
 # Please write a code
 ```
 
 
 ### 3.3. Finding the position where different consequences of mutations occur
+
+If you checked the recurrent mutations, you might want to find a locus where two or more variants occur. Such loci might indicate functionally important position of the gene and you might find some insight as to pathophysiology. 
 
 ```{r}
 # Please write a code
