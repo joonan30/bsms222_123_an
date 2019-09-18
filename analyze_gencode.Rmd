@@ -4,7 +4,7 @@ output: html_notebook
 ---
 Update: 2019/09/15
 
-## 1. Intro
+## 1. Introduction
 
 ### 1.1. What is gene annotation?
 Over the past years, we have learnt that there are a number of chromosomes and genes in our genome. Counting the number of chromosomes is fairly easy but students might find difficult to say how many genes we have in our genome. If you can get an answer for this, could you tell how many genes encode protein and how many do not? 
@@ -38,7 +38,7 @@ This tutorial will use a gene annotation file from the GENCODE. You will need to
 
 ```{bash}
 # Run from your terminal, not R console
-wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.basic.annotation.gtf.gz
+# wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.basic.annotation.gtf.gz
 
 # Once you downloaded the file, you won't need to download it again. So please comment out the command above by adding #
 ```
@@ -58,8 +58,8 @@ For the tutorial, we need to load two packages. If the package is not installed 
 - `readr`, a package provides a fast and friendly way to read. Since the file `gencode.v31.basic.annotation.gtf.gz` is pretty large, you will need some function to load data quickly into your workspace.
 
 ```{r}
-library(tidyverse)
-library(readr)
+library(tidyverse, quietly = T)
+library(readr, quietly = T)
 ```
 
 Let's load the GTF file into your workspace. We will use `read_delim` function from the `readr` package. This is much faster loading than `read.delim` or `read.csv` from R base. However, some parameters and output class for `read_delim` are slightly different from them.
@@ -143,7 +143,8 @@ Let's count the number of genes in our genome. Since we know that the column `fe
 
 
 ```{r}
-# Please write a code
+d1 = filter(d, feature_type == 'gene')
+# d1 = d[d$feature_type == 'gene', ]
 ```
 
 

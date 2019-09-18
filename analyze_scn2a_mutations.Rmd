@@ -5,7 +5,7 @@ output: html_notebook
 
 Update: 2019/09/15
 
-## 1. Intro
+## 1. Introduction
 
 ### 1.1. Background
 
@@ -181,7 +181,6 @@ min(d1$SeizureOnsetDays3)
 
 The dataset contains more details for genetic mutations in SCN2A patients. From this information, what can we analyze further? Here I list up few questions we can examine further. 
 
-
 - Finding the position of the genetic mutations within SCN2A. Which information you would use? If you are not familiar with positional information on genetic variants (or mutations), please find the **Figure 1** or slides [Mutation from the Genetics BSMS205](https://docs.google.com/presentation/d/1-HXAbXKSBv8TrirsTwn9ZwRMki5TAau1f-t9EooMSkM/edit?usp=sharing).
 - Counting the recurrent mutations at the same position (in other words, the same mutations from different patients), and examine whether the patients have similar phenotype.
 - Finding the position where different consequences mutations occur. Please note that "consequences" are loss-of-function (Nonsense, Frameshift) or missense. 
@@ -204,7 +203,7 @@ During these exercises, we will look at the concept of `for-loop` and `vectoriza
 
 ```{r}
 # Write down your code to explore this column. 
-
+head(d$p.Protein)
 ```
 
 If you need more information on SCN2A, please visit [the Uniprot page for SCN2A](https://www.uniprot.org/uniprot/Q99250)
@@ -220,6 +219,9 @@ In the dataset, we have many rows for protein positions. One way we might try is
 
 ```{r}
 # Please write a code
+for (i in 1:263) {
+  a <- gsub('[^0-9]', '', d[i, 'p.Protein'] )
+}
 ```
 
 Do you think this is an effective approach? As we have done in your assignment, `for-loop` is not great choice to process vectors because R can enable `______________` for a shorter and clearer code. So this mean you can apply `gsub` on vector and return your output to another column (could be new assign). 
@@ -236,6 +238,7 @@ To assess the recurrent mutations, the first thing we can try is to examine whet
 
 ```{r}
 # Please write a code
+c <- as.data.frame(table(d$p.Protein))
 ```
 
 or we can check the number of unique variants in the dataset by:
