@@ -11,7 +11,11 @@ Over the past years, we have learnt that there are a number of chromosomes and g
 
 To answer this question, we need to access the database for gene annotation. Gene annotation is the process of making nucleotide sequence meaningful - where genes are located? whether it is protein-coding or noncoding. If you would like to get an overview of gene annotation, please find this [link](http://www.biolyse.ca/what-is-gene-annotation-in-bioinformatics/). 
 
-One of well-known collaborative efforts in gene annotation is [the GENCODE consortium](https://www.gencodegenes.org/pages/gencode.html). It is a part of the Encyclopedia of DNA Elements (The ENCODE project consortium) and aims to identify all gene features in the human genome using a combination of computational analysis, manual annotation, and experimental validation ([Harrow et al. 2012](https://genome.cshlp.org/content/22/9/1760.full.html)). 
+One of well-known collaborative efforts in gene annotation is [the GENCODE consortium](https://www.gencodegenes.org/pages/gencode.html). It is a part of the Encyclopedia of DNA Elements (The ENCODE project consortium) and aims to identify all gene features in the human genome using a combination of computational analysis, manual annotation, and experimental validation ([Harrow et al. 2012](https://genome.cshlp.org/content/22/9/1760.full.html)). You might find another database for gene annotation, like RefSeq, CCDS, and need to understand differences between them. 
+
+<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1186%2F1471-2164-16-S8-S2/MediaObjects/12864_2015_Article_7216_Fig1_HTML.jpg?as=webp" width="500">
+
+**Figure 1. Comparison of GENCODE and RefSeq gene annotation and the impact of reference geneset on variant effect prediction** ([Frankish et al. 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3431492/)). A) Mean number of alternatively spliced transcripts per multi-exon protein-coding locus B) Mean number of unique CDS per multi-exon protein-coding locus C) Mean number of unique (non-redundant) exons per multi-exon protein-coding locus D) Percentage genomic coverage of unique (non-redundant) exons at multi-exon protein-coding loci.
 
 In this tutorial, we will access to gene annotation from the GENCODE consortium and explore genes and functional elements in our genome. 
 
@@ -33,20 +37,17 @@ This tutorial will use a gene annotation file from the GENCODE. You will need to
 
 
 ```{bash}
+# Run from your terminal, not R console
 wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_31/gencode.v31.basic.annotation.gtf.gz
+
+# Once you downloaded the file, you won't need to download it again. So please comment out the command above by adding #
 ```
 
 Once you download the file, you can print out the first few lines using the following bash command (we will learn UNIX commands later):
 
 ```{bash}
+# Run from your terminal, not R console
 gzcat gencode.v31.basic.annotation.gtf.gz | head
-
-##description: evidence-based annotation of the human genome (GRCh38), version 31 (Ensembl 97)
-##provider: GENCODE
-##contact: gencode-help@ebi.ac.uk
-##format: gtf
-##date: 2019-06-27
-chr1	HAVANA	gene	11869	14409	.	+	.	gene_id "ENSG00000223972.5"; gene_type "transcribed_unprocessed_pseudogene"; gene_name "DDX11L1"; level 2; hgnc_id "HGNC:37102"; havana_gene "OTTHUMG00000000961.2";
 ```
 
 The file is [the GFT file format](https://www.ensembl.org/info/website/upload/gff.html), which you will find most commonly in gene annotation. Please read the file format thoroughly in the link above. 
@@ -145,4 +146,25 @@ Let's count the number of genes in our genome. Since we know that the column `fe
 # Please write a code
 ```
 
+
+### 2.4. Ensembl, Havana and CCDS.
+
+
+Gene annotation for the human genome is provided by multiple organizations with different gene annotation methods and strategy. This means that information can be varying by resources, and users need to understand heterogeniety inherent in annotation databases. 
+
+The GENCODE project utlizes two sources of gene annotation.
+
+1. Havana: Manual gene annotation ([detailed strategy in here](https://asia.ensembl.org/info/genome/genebuild/manual_havana.html))
+1. Ensembl: Automatic gene annotation ([detailed strategy in here](https://asia.ensembl.org/info/genome/genebuild/automatic_coding.html))
+
+It provides the combination of Ensembl/HAVANA gene set as the default gene annotation for the human genome. In addition, they also guarantee that all transcripts from the Consensus Coding Sequence (CCDS) set are present in the GENCODE gene set. The CCDS project is a collaborative effort to identify a core set of protein coding regions that are consistently annotated and of high quality. Initial results from the Consensus CDS (CCDS) project are now available through the appropriate Ensembl gene pages and from the CCDS project page at NCBI. The CCDS set is built by consensus among Ensembl, the National Center for Biotechnology Information (NCBI), and the HUGO Gene Nomenclature Committee (HGNC) for human ([link](https://asia.ensembl.org/info/genome/genebuild/ccds.html)).
+
+
+<img src="https://pbs.twimg.com/media/BiIoBo9IQAA2LQL?format=jpg&name=small" width="500">
+
+**Figure 2. Comparison of CCDS and Gencode** ([Source](https://twitter.com/ensembl/status/441959722376499200)). 
+
+```{r}
+# Please write a code
+```
 
