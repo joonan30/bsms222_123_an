@@ -169,3 +169,61 @@ It provides the combination of Ensembl/HAVANA gene set as the default gene annot
 # Please write a code
 ```
 
+
+### 2.5. `do.call` 
+
+Since the last column `info` contains a long string for multiple annotations, we will need to split it to extract each annotation. For example, the first line for transcript annotation looks like this:
+
+```{markdown}
+chr1	HAVANA	transcript	11869	14409	.	+	.	gene_id "ENSG00000223972.5"; transcript_id "ENST00000456328.2"; gene_type "transcribed_unprocessed_pseudogene"; gene_name "DDX11L1"; transcript_type "lncRNA"; transcript_name "DDX11L1-202"; level 2; transcript_support_level "1"; hgnc_id "HGNC:37102"; tag "basic"; havana_gene "OTTHUMG00000000961.2"; havana_transcript "OTTHUMT00000362751.1";
+```
+
+If you would like to split `transcript_support_level` and create a new column, you can use `strsplit` function.
+
+```{r}
+a = 'chr1	HAVANA	transcript	11869	14409	.	+	.	gene_id "ENSG00000223972.5"; transcript_id "ENST00000456328.2"; gene_type "transcribed_unprocessed_pseudogene"; gene_name "DDX11L1"; transcript_type "lncRNA"; transcript_name "DDX11L1-202"; level 2; transcript_support_level "1"; hgnc_id "HGNC:37102"; tag "basic"; havana_gene "OTTHUMG00000000961.2"; havana_transcript "OTTHUMT00000362751.1";'
+
+strsplit(a, 'transcript_support_level\\s+"')
+```
+
+After split the string, you can select the second item in the list (`[[1]][2]`). 
+
+```{r}
+strsplit(a, 'transcript_support_level\\s+"')[[1]][2]
+```
+
+You can find the `1` in the first position, which you will need to split again. 
+
+```{r}
+b = strsplit(a, 'transcript_support_level\\s+"')[[1]][2]
+strsplit(b, '\\"')
+```
+
+From this, you will get the first item in the list (`[[1]][1]`). 
+
+Now you would like to apply `strsplit` function across vectors. For this, `do.call` function can be easily implemented to `strsplit` over the vectors from one column. Let's try this. 
+
+```{r}
+head(do.call(rbind.data.frame, strsplit(a, 'transcript_support_level\\s+"'))[[2]])
+```
+
+Now you can write two lines of codes to process two steps we discussed above. 
+
+```{r}
+# First filter transcripts and create a data frame.
+d2 = filter(d, feature_type == 'transcript')
+
+# Now apply the functions. 
+d2$transcript_support_level <- as.character(do.call(rbind.data.frame, 
+                                                    strsplit(d2$info, 'transcript_support_level\\s+"'))[[2]])
+
+d2$transcript_support_level <- as.character(do.call(rbind.data.frame, 
+                                                    strsplit( d2$transcript_support_level, '\\"'))[[1]])
+```
+Now you can check the strsplit works.
+
+```{r}
+head(d2$transcript_support_level)
+```
+
+You can use the same method to extract other annotations, like `gene_id`, `gene_name` etc.
