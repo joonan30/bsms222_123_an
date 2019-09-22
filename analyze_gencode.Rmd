@@ -143,7 +143,6 @@ d1 = filter(d, feature_type == 'gene')
 
 ### 2.4. Ensembl, Havana and CCDS.
 
-
 Gene annotation for the human genome is provided by multiple organizations with different gene annotation methods and strategy. This means that information can be varying by resources, and users need to understand heterogeniety inherent in annotation databases. 
 
 The GENCODE project utlizes two sources of gene annotation.
@@ -266,11 +265,11 @@ The GENCODE TSL provides a consistent method of evaluating the level of support 
 
 ### 3.4. CCDS in the GENCODE
 
-1. With `gene`, please create a data frame with the columns - gene_id, gene_name, ccdsid, hgnc_id, gene_type, chromosome, start, end, and strand. Then, please create new columns for presence of hgnc and ccds. For example, you can put `1` in the column `isHgnc`, if hgnc annotation is avaiable, or `0` if not. Then, you can put `1` in the column `isCCDS`, if ccds annotation is avaiable, or `0` if not.
+1. With `gene`, please create a data frame with the columns - gene_id, gene_name, hgnc_id, gene_type, chromosome, start, end, and strand. Then, please create new columns for presence of hgnc and ccds. For example, you can put `1` in the column `isHgnc`, if hgnc annotation is avaiable, or `0` if not. Then, you can put `1` in the column `isCCDS`, if ccds annotation is avaiable, or `0` if not.
 
-2. Please count the number of hgnc by gene biotype. Then, count the number of ccds by gene biotype. 
+2. Please count the number of hgnc by gene biotypes.
 
-3. Please count the number of hgnc or ccds by `level`. Please note that level in this question is not `TSL`. Please find information in this [link](https://www.gencodegenes.org/pages/data_format.html): 1 (verified loci), 2 (manually annotated loci), 3 (automatically annotated loci). 
+3. Please count the number of hgnc by `level`. Please note that level in this question is not `TSL`. Please find information in this [link](https://www.gencodegenes.org/pages/data_format.html): 1 (verified loci), 2 (manually annotated loci), 3 (automatically annotated loci). 
 
 ### 3.5. Transcripts in the GENCODE
 
