@@ -47,7 +47,7 @@ Once you download the file, you can print out the first few lines using the foll
 
 ```{bash}
 # Run from your terminal, not R console
-gzcat gencode.v31.basic.annotation.gtf.gz | head
+gzcat gencode.v31.basic.annotation.gtf.gz | head -7
 ```
 
 The file is [the GFT file format](https://www.ensembl.org/info/website/upload/gff.html), which you will find most commonly in gene annotation. Please read the file format thoroughly in the link above. 
@@ -109,14 +109,14 @@ d = read_delim('gencode.v31.basic.annotation.gtf.gz',
 
 You can find the column names are now all set.
 
-```{r}
+```{r echo=T}
 head(d)
 ```
 
 When you loaded the file, you see the message about the data class. You might want to overview this data.
 
 ```{r}
-# Please write a code
+summary(d)
 ```
 
 ### 2.2. How many feature types in the GENCODE dataset?
@@ -124,18 +124,11 @@ When you loaded the file, you see the message about the data class. You might wa
 As instructed in the GENCODE website, the GENCODE dataset provides a range of annotations for the feature type. You can check feature types using `____` function.
 
 ```{r}
-# Please write a code
+d %>% group_by(feature_type) %>% count(feature_type)
+# table(d$feature_type)
 ```
 
 How many feature types provided in the GENCODE? And how many items stored for each feature type? Please write down the number of feature types from the dataset. Also, if you are not familiar with these types, it would be good to put one or two sentences that can describe each type).
-
-- gene (N=XX,XXX)
-- ?
-- ?
-- ?
-- ?
-- ?
-- ?
 
 ### 2.3. How many genes we have?
 
@@ -165,8 +158,10 @@ It provides the combination of Ensembl/HAVANA gene set as the default gene annot
 
 **Figure 2. Comparison of CCDS and Gencode** ([Source](https://twitter.com/ensembl/status/441959722376499200)). 
 
+Right. Then now we count how many genes annotated with HAVANA and ENSEMBL.
+
 ```{r}
-# Please write a code
+d %>% group_by(source) %>% count(source)
 ```
 
 
@@ -211,7 +206,7 @@ Now you can write two lines of codes to process two steps we discussed above.
 
 ```{r}
 # First filter transcripts and create a data frame.
-d2 = filter(d, feature_type == 'transcript')
+d2 <- d %>% filter(feature_type == 'transcript')
 
 # Now apply the functions. 
 d2$transcript_support_level <- as.character(do.call(rbind.data.frame, 
@@ -220,6 +215,7 @@ d2$transcript_support_level <- as.character(do.call(rbind.data.frame,
 d2$transcript_support_level <- as.character(do.call(rbind.data.frame, 
                                                     strsplit( d2$transcript_support_level, '\\"'))[[1]])
 ```
+
 Now you can check the strsplit works.
 
 ```{r}
@@ -227,3 +223,71 @@ head(d2$transcript_support_level)
 ```
 
 You can use the same method to extract other annotations, like `gene_id`, `gene_name` etc.
+
+
+## 3. Exercises
+
+Here I list the questions for group activity. You will need to pick up one session for three questions for your group. It will be your quiz on the next class.  If you have done your session, you can of course go ahead and take other sessions for your practice. 
+
+Please note that it is an exercise for `tidyverse` functions, which you will need to use in your code. In addition, you will need to write an one-line code for each question using pipe `%>%`. 
+
+For questions, you should read some information thoroughly, including:
+
+ - [Gene biotype](https://www.gencodegenes.org/pages/biotypes.html). 
+ - [0 or 1 based annotation in GTF, BED format](https://www.biostars.org/p/84686/)
+ - [Why some features have 1 bp length?](https://www.biostars.org/p/61823/)
+ - [Transcript support level (TSL)](https://asia.ensembl.org/info/genome/genebuild/transcript_quality_tags.html#tsl)
+
+### 3.1. Annotation of transcripts in our genome
+
+1. Computes the number of transcripts per gene. What is the mean number of transcripts per gene? What is the quantile (25%, 50%, 75%) for these numbers? Which gene has the greatest number of transcript?
+
+2. Compute the number of transcripts per gene among gene biotypes. For example, compare the number of transcript per gene between protein-coding genes, long noncoding genes, pseudogenes. 
+
+3. Final task is to compute the number of transcripts per gene per chromosome.
+
+### 3.2. Gene length in the GENCODE
+
+1. What is the average length of human genes?
+
+2. Is the distribution of gene length differed by autosomal and sex chromosomes? Please calculate the quantiles (0%, 25%, 50%, 75%, 100%) of the gene length for each group.
+
+3. Is the distribution of gene length differed by gene biotype? Please calculate the quantiles (0%, 25%, 50%, 75%, 100%) of the gene length for each group.
+
+### 3.3. Transcript support levels (TSL)
+
+The GENCODE TSL provides a consistent method of evaluating the level of support that a GENCODE transcript annotation is actually expressed in humans.
+
+1. With `transcript`, how many transcripts are categorized for each TSL?
+
+2. From the first question, please count the number of transcript for each TSL by gene biotype.
+
+3. From the first question, please count the number of transcript for each TSL by source. 
+
+### 3.4. CCDS in the GENCODE
+
+1. With `gene`, please create a data frame with the columns - gene_id, gene_name, ccdsid, hgnc_id, gene_type, chromosome, start, end, and strand. Then, please create new columns for presence of hgnc and ccds. For example, you can put `1` in the column `isHgnc`, if hgnc annotation is avaiable, or `0` if not. Then, you can put `1` in the column `isCCDS`, if ccds annotation is avaiable, or `0` if not.
+
+2. Please count the number of hgnc by gene biotype. Then, count the number of ccds by gene biotype. 
+
+3. Please count the number of hgnc or ccds by `level`. Please note that level in this question is not `TSL`. Please find information in this [link](https://www.gencodegenes.org/pages/data_format.html): 1 (verified loci), 2 (manually annotated loci), 3 (automatically annotated loci). 
+
+### 3.5. Transcripts in the GENCODE
+
+1. Which gene has the largest number of transcripts?
+
+2. Please calculate the quantiles (0%, 25%, 50%, 75%, 100%) of the gene length for protein coding genes and long noncoding genes. 
+
+3. Please count the number of transcripts by chromosomes. 
+
+### 3.6. Autosomal vs. Sex chromosomes.
+
+1. Please calculate the number of genes per chromosome.
+
+2. Please compare the number of genes between autosomal and sex chromosome (Mean, Median).
+
+3. Please divide the genes into groups ‘protein coding’ and ‘long noncoding’, and then compare the number of genes in each chromosomes within groups.
+
+
+
+
