@@ -148,7 +148,7 @@ Gene annotation for the human genome is provided by multiple organizations with 
 The GENCODE project utlizes two sources of gene annotation.
 
 1. Havana: Manual gene annotation ([detailed strategy in here](https://asia.ensembl.org/info/genome/genebuild/manual_havana.html))
-1. Ensembl: Automatic gene annotation ([detailed strategy in here](https://asia.ensembl.org/info/genome/genebuild/automatic_coding.html))
+2. Ensembl: Automatic gene annotation ([detailed strategy in here](https://asia.ensembl.org/info/genome/genebuild/automatic_coding.html))
 
 It provides the combination of Ensembl/HAVANA gene set as the default gene annotation for the human genome. In addition, they also guarantee that all transcripts from the Consensus Coding Sequence (CCDS) set are present in the GENCODE gene set. The CCDS project is a collaborative effort to identify a core set of protein coding regions that are consistently annotated and of high quality. Initial results from the Consensus CDS (CCDS) project are now available through the appropriate Ensembl gene pages and from the CCDS project page at NCBI. The CCDS set is built by consensus among Ensembl, the National Center for Biotechnology Information (NCBI), and the HUGO Gene Nomenclature Committee (HGNC) for human ([link](https://asia.ensembl.org/info/genome/genebuild/ccds.html)).
 
@@ -235,7 +235,7 @@ For questions, you should read some information thoroughly, including:
  - [Gene biotype](https://www.gencodegenes.org/pages/biotypes.html). 
  - [0 or 1 based annotation in GTF, BED format](https://www.biostars.org/p/84686/)
  - [Why some features have 1 bp length?](https://www.biostars.org/p/61823/)
- - [What is the meaning of zero-length exons in GENCODE?](https://www.biostars.org/p/209854/). Also fun to have a review for [microexons](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5863539/)
+ - [What is the meaning of zero-length exons in GENCODE?](https://www.biostars.org/p/209854/) Also fun to have a review for [microexons](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5863539/)
  - [Transcript support level (TSL)](https://asia.ensembl.org/info/genome/genebuild/transcript_quality_tags.html#tsl)
 
 ### 3.1. Annotation of transcripts in our genome
