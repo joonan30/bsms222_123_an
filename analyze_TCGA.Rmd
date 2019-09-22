@@ -1,0 +1,161 @@
+---
+title: "TCGA Lung cancer"
+output: html_notebook
+---
+
+##  1. Introduction
+
+Lung cancer one of major cancers, accounting for [2.09 million deaths out of the 9.6 million total cancer deaths in 2018](https://www.who.int/en/news-room/fact-sheets/detail/cancer). There are two main types of lung cancer: small cell lung carcinoma (SCLC) and non-small cell lung carcinoma (NSCLC). NSCLC is responsible for 85–90% of lung cancer cases and its two largest subtypes are lung squamous cell carcinoma (LUSC) and lung adenocarcinoma (LUAD). LUSC accounts for 25–30% of all total lung cancer cases while LUAD accounts for 40% of all total lung cancer cases. LUSC are likely to be found in the middle of the lungs and is associated with smoking. In contrast, LUAD develops in the periphery of the lungs and may be associated with smoking, but is the most common lung cancer type among non-smokers.
+
+In this tutorial, we will explore the sample dataset of LUSC and LUAD from the The Cancer Genome Atlas (TCGA), a public resource for diverse cancer types. 
+
+## 2. Explore your data
+
+```{r message=FALSE}
+# Load packages
+library(ggplot2, quietly = T)
+library(tidyverse, quietly = T)
+library(readr, quietly = T)
+
+# Load dataset
+# wget https://www.dropbox.com/s/xi1ilrp6uzwh4i8/data_20190822_luad_lusc_rnaseq_normalized.RData?dl=0
+load('data_20190822_luad_lusc_rnaseq_normalized.RData')
+```
+
+Let's explore which columns are provided in this dataset. 
+
+```{r}
+colnames(d_luad)
+```
+
+```{r}
+colnames(d_lusc)
+```
+
+### 2.1. Tumor stages of lung cancers
+
+First information you might want to explore is staging cancers. Different types of staging systems are used for different types of cancer. You can read [further information in general staging rules](https://www.nhs.uk/common-health-questions/operations-tests-and-procedures/what-do-cancer-stages-and-grades-mean/), or specifics in lung cancers ([e.g. stage IA](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/stage-ia-non-small-cell-lung-cancer)). 
+
+
+```{r}
+# Cancer type by tumor stages
+bind_rows(d_luad %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='luad') %>%
+            select(type, tumor_stage), 
+          d_lusc %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='lusc') %>%
+            select(type, tumor_stage)) %>% 
+  count(type, tumor_stage) %>%
+  mutate(tumor_stage = factor(tumor_stage, levels=rev(unique(tumor_stage)))) %>%
+  ggplot(aes( tumor_stage, n, fill=type)) + 
+  labs(title = 'Cancer type by tumor stages',
+       x = '', y='Number of samples for TCGA RNA-seq') + 
+  theme_minimal() + geom_bar(stat="identity") + 
+  facet_wrap(~type) + coord_flip() 
+```
+
+### 2.2. Cancer type by gender
+
+Let's try another information - gender. We will describe this by a bar plot like above. After plotting, which information you can read from this?
+
+NB: I am not pretty sure why TCGA put gender, not sex in the dataset, in addition to mixed use of female/male with gender. 
+
+```{r}
+# Cancer type by Sex
+bind_rows(d_luad %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='luad') %>%
+            select(type, gender), 
+          d_lusc %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='lusc') %>%
+            select(type, gender)) %>% 
+  count(type, gender) %>%
+  ggplot(aes( gender, n, fill=type)) + 
+  labs(title = 'Cancer type by Sex',
+       x = '', y='Number of samples for TCGA RNA-seq') + 
+  theme_minimal() + geom_bar(stat="identity") + 
+  facet_wrap(~type) + coord_flip() 
+```
+
+Is there difference in tumor stages by gender? Let's check with LUSC.
+
+```{r}
+# Add gender with stages
+bind_rows(d_luad %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='luad') %>%
+            select(type, tumor_stage, gender), 
+          d_lusc %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='lusc') %>%
+            select(type, tumor_stage, gender)) %>% 
+  count(type, tumor_stage, gender) %>% 
+  complete(gender, type, tumor_stage, fill = list(n = 0)) %>%
+  mutate(tumor_stage = factor(tumor_stage, levels=rev(unique(tumor_stage))), 
+         gender = factor(gender)) %>%
+  ggplot(., aes(tumor_stage, n, fill=gender)) + 
+  geom_bar(stat="identity", position=position_dodge()) + 
+  facet_wrap(~type) + coord_flip() 
+
+```
+
+### 2.3. Site of biopsy
+
+```{r}
+# Cancer type by biopsy
+bind_rows(d_luad %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='luad') %>%
+            select(type, site_of_resection_or_biopsy), 
+          d_lusc %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='lusc') %>%
+            select(type, site_of_resection_or_biopsy)) %>% 
+  count(type, site_of_resection_or_biopsy) %>%
+  ggplot(aes( site_of_resection_or_biopsy, n, fill=type)) + 
+  labs(title = 'Cancer type by biopsy',
+       x = '', y='Number of samples for TCGA RNA-seq') + 
+  theme_minimal() + geom_bar(stat="identity") + 
+  facet_wrap(~type) + coord_flip() 
+
+```
+
+Plot the years at diagnosis by tissue or organ of origin. We would also include difference by gender. 
+
+```{r}
+bind_rows(d_luad %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='luad') %>%
+            select(type, gender, age_at_diagnosis, tissue_or_organ_of_origin), 
+          d_lusc %>% 
+            filter(shortLetterCode == 'TP') %>% 
+            mutate(type='lusc') %>%
+            select(type, gender, age_at_diagnosis, tissue_or_organ_of_origin)) %>%
+  ggplot(., aes(gender, age_at_diagnosis/365, fill=gender)) + 
+  geom_boxplot() + labs(y='year at diagnosis') + 
+  facet_wrap(~tissue_or_organ_of_origin)
+```
+
+### 2.4. Which tissue or sample for your data?
+
+The column `shortLetterCode` contains [Sample Type Codes](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes)
+- TP: Primary solid Tumor
+- NT: Solid Tissue Normal
+
+
+```{r}
+bind_rows(d_luad %>% 
+            mutate(type='luad') %>%
+            select(type, shortLetterCode, tumor_stage), 
+          d_lusc %>% 
+            mutate(type='lusc') %>%
+            select(type, shortLetterCode, tumor_stage)) %>%
+  count(shortLetterCode, type) %>% 
+  complete(type, shortLetterCode, fill = list(n = 0)) %>%
+  ggplot(., aes(type, n, fill=shortLetterCode)) + 
+  geom_bar(stat="identity", position=position_dodge()) + 
+  facet_wrap(~type, scales = 'free_x', ncol=5)
+```
