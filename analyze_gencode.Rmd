@@ -57,7 +57,7 @@ For the tutorial, we need to load two packages. If the package is not installed 
 - `tidyverse`, a package you have learnt from the chapter 5.
 - `readr`, a package provides a fast and friendly way to read. Since the file `gencode.v31.basic.annotation.gtf.gz` is pretty large, you will need some function to load data quickly into your workspace.
 
-```{r}
+```{r message=F}
 library(tidyverse, quietly = T)
 library(readr, quietly = T)
 ```
@@ -235,6 +235,7 @@ For questions, you should read some information thoroughly, including:
  - [Gene biotype](https://www.gencodegenes.org/pages/biotypes.html). 
  - [0 or 1 based annotation in GTF, BED format](https://www.biostars.org/p/84686/)
  - [Why some features have 1 bp length?](https://www.biostars.org/p/61823/)
+ - [What is the meaning of zero-length exons in GENCODE?](https://www.biostars.org/p/209854/). Also fun to have a review for [microexons](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5863539/)
  - [Transcript support level (TSL)](https://asia.ensembl.org/info/genome/genebuild/transcript_quality_tags.html#tsl)
 
 ### 3.1. Annotation of transcripts in our genome
