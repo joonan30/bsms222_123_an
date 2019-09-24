@@ -13,7 +13,6 @@ wget <link for a raw github file>
 ```
 
 
-
 ### Tutorials
 
 - **[Explore SCN2A mutations collected from Sanders et al 2018](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/analyze_scn2a_mutations.nb.html) ([raw file](https://raw.githubusercontent.com/joonan30/bsms222_123_an/master/analyze_scn2a_mutations.Rmd)).** This is a tutorial for autodidact who just finished the Rafa book's chapter 3 and 4.  
@@ -27,5 +26,6 @@ wget <link for a raw github file>
 - **Analysis of genetic variants from general population.** This will be an assignment for students and draw their own plots from the dataset followed by peer review. 
 
 
+### Assignment
 
-
+- [Assignment packages 1](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/assignment1.nb.html) by Oct 17th 10pm.
