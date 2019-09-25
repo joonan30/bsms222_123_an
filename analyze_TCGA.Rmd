@@ -18,7 +18,7 @@ library(tidyverse, quietly = T)
 library(readr, quietly = T)
 
 # Load dataset
-# wget https://www.dropbox.com/s/xi1ilrp6uzwh4i8/data_20190822_luad_lusc_rnaseq_normalized.RData?dl=0
+# wget https://www.dropbox.com/s/xi1ilrp6uzwh4i8/data_20190822_luad_lusc_rnaseq_normalized.RData
 load('data_20190822_luad_lusc_rnaseq_normalized.RData')
 ```
 
@@ -35,6 +35,19 @@ colnames(d_lusc)
 ### 2.1. Tumor stages of lung cancers
 
 First information you might want to explore is staging cancers. Different types of staging systems are used for different types of cancer. You can read [further information in general staging rules](https://www.nhs.uk/common-health-questions/operations-tests-and-procedures/what-do-cancer-stages-and-grades-mean/), or specifics in lung cancers ([e.g. stage IA](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/stage-ia-non-small-cell-lung-cancer)). 
+
+
+```{r}
+# Count the number of tumors in the LUAD dataset
+counts_tumor <- d_luad %>% count(tumor_stage)
+
+# Try bar plot
+ggplot(counts_tumor, aes( tumor_stage, n)) + geom_bar(stat="identity")
+
+```
+
+
+Now you can combine both for visualization.
 
 
 ```{r}
