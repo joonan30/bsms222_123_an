@@ -77,9 +77,10 @@ For further information, please find [the PDF link](https://help.brain-map.org/d
 
 ```{r}
 # Download Rdata for the BrainSpan DFC samples
-wget https://www.dropbox.com/s/cw0rtq60a2o2kub/data_brainspan_DFC.20190924.Rdata
+wget https://www.dropbox.com/s/u3ii9x4wpnzazm5/data_brainspan_DFC.20190928.Rdata
 
-# After download, please load data by `load('data_brainspan_DFC.20190924.Rdata')`.
+# After download, please load data by `load('data_brainspan_DFC.20190928.Rdata')`.
+
 ```
 
 
