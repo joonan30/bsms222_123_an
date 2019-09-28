@@ -4,12 +4,14 @@ output: html_notebook
 ---
 
 ##  1. Introduction
+Lung cancer one of major cancers, accounting for [2.09 million deaths out of the 9.6 million total cancer deaths in 2018](https://www.who.int/en/news-room/fact-sheets/detail/cancer). There are two main types of lung cancer: small cell lung carcinoma (SCLC) and non-small cell lung carcinoma (NSCLC). NSCLC is responsible for 85–90% of lung cancer cases and its two largest subtypes are lung adenocarcinoma (LUAD) and lung squamous cell carcinoma (LUSC). 
 
-Lung cancer one of major cancers, accounting for [2.09 million deaths out of the 9.6 million total cancer deaths in 2018](https://www.who.int/en/news-room/fact-sheets/detail/cancer). There are two main types of lung cancer: small cell lung carcinoma (SCLC) and non-small cell lung carcinoma (NSCLC). NSCLC is responsible for 85–90% of lung cancer cases and its two largest subtypes are lung squamous cell carcinoma (LUSC) and lung adenocarcinoma (LUAD). LUSC accounts for 25–30% of all total lung cancer cases while LUAD accounts for 40% of all total lung cancer cases. LUSC are likely to be found in the middle of the lungs and is associated with smoking. In contrast, LUAD develops in the periphery of the lungs and may be associated with smoking, but is the most common lung cancer type among non-smokers.
+LUAD develops in the periphery of the lungs and may be associated with smoking, but is the most common lung cancer type among non-smokers. In contrast, LUSC accounts for 25–30% of all total lung cancer cases while LUAD accounts for 40% of all total lung cancer cases. LUSC are likely to be found in the middle of the lungs and is associated with smoking. 
 
-In this tutorial, we will explore the sample dataset of LUSC and LUAD from the The Cancer Genome Atlas (TCGA), a public resource for diverse cancer types. 
+In this tutorial, we will explore the sample dataset of LUSC and LUAD from the The Cancer Genome Atlas (TCGA), a public resource for the genomic dataset. Here we use two types of lung cancers - LUAD and LUSC and will examine which information we can use for genomic analyses of lung cancers.
 
 ## 2. Explore your data
+We will load a package and dataset for the tutorial.
 
 ```{r message=FALSE}
 # Load packages
@@ -32,7 +34,102 @@ colnames(d_luad)
 colnames(d_lusc)
 ```
 
-### 2.1. Tumor stages of lung cancers
+### 2.1. Which tissues or samples are available for your analysis?
+
+Lung cancer samples in the dataset are provided in tumor or normal tissues. The column `shortLetterCode` contains [Sample Type Codes](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes) to describe the type of tissues collected in the dataset.
+
+- TP: Primary solid Tumor
+- TR: Recurrent solid Tumor
+- NT: Solid Tissue Normal
+
+Check which samples are included in the LUAD dataset.
+
+```{r}
+d_luad %>% count(shortLetterCode)
+```
+
+Check which samples are included in the LUSC dataset.
+
+```{r}
+d_lusc %>% count(shortLetterCode)
+```
+
+Let's make a simple bar plot to compare the number of tissues between two tissue types. We will look at the LUAD samples first.
+
+```{r}
+d_luad %>%
+  count(shortLetterCode) %>% 
+  ggplot(., aes(shortLetterCode, n, fill=shortLetterCode)) + 
+  geom_bar(stat="identity", position=position_dodge()) 
+```
+
+Now we can plot the LUSC samples.
+
+```{r}
+d_lusc %>%
+  count(shortLetterCode) %>% 
+  ggplot(., aes(shortLetterCode, n, fill=shortLetterCode)) + 
+  geom_bar(stat="identity", position=position_dodge()) 
+```
+
+We made two separate plots for the LUAD and LUSC dataset. It would be great if we can merge them into one plot. Here I put the code for this. It would be good practice if you comment or delete the line that you don't understand fully, you will compare the difference between outcomes. Also, please figure out what Qs do in this plot.
+
+```{r}
+bind_rows(d_luad %>% 
+            mutate(type='luad') %>%
+            select(type, shortLetterCode, tumor_stage), 
+          d_lusc %>% 
+            mutate(type='lusc') %>%
+            select(type, shortLetterCode, tumor_stage)) %>%
+  count(shortLetterCode, type) %>% 
+  complete(type, shortLetterCode, fill = list(n = 0)) %>% # Q1: What is this? 
+  ggplot(., aes(shortLetterCode, n, fill=shortLetterCode)) + 
+  geom_bar(stat="identity", position=position_dodge()) + 
+  facet_wrap(~type, scales = 'free_x', ncol=5) # Q2: What is this?
+```
+
+
+### 2.2. Distribution of age at diagnosis
+
+We will plot the distribution of age at diagnosis using histogram. Few things you can check:
+- Is the distribution continuous?
+- Is it fowlloing the normal distribution?
+- What is the scale on the x-axis?
+- If the distribution is stratified, which makes it?
+
+```{r}
+# Plot histogram
+ggplot(d_luad, aes(age_at_diagnosis)) + geom_histogram(bins=100)
+```
+
+The x-axis is a day scale. Let's convert it to year.
+
+```{r}
+# Change the axis
+ggplot(d_luad, aes(age_at_diagnosis/365)) + geom_histogram(bins=100)
+```
+
+To create a smooth density, we use the geom_density.
+
+```{r}
+ggplot(d_luad, aes(age_at_diagnosis)) + geom_density()
+```
+
+We still found the bump in the density plot. What would contribute to this stratification? Let's look at some variables. 
+
+```{r}
+ggplot(d_luad, aes(age_at_diagnosis, fill=gender)) + geom_histogram(bins=100)
+```
+
+Do you think gender is the reason? If not, how about tumor stages?
+
+```{r}
+ggplot(d_luad, aes(age_at_diagnosis/365, fill=tumor_stage)) + 
+  geom_histogram(bins=100) + facet_wrap(~tumor_stage)
+```
+
+
+### 2.3. Tumor stages of lung cancers
 
 First information you might want to explore is staging cancers. Different types of staging systems are used for different types of cancer. You can read [further information in general staging rules](https://www.nhs.uk/common-health-questions/operations-tests-and-procedures/what-do-cancer-stages-and-grades-mean/), or specifics in lung cancers ([e.g. stage IA](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/stage-ia-non-small-cell-lung-cancer)). 
 
@@ -69,7 +166,7 @@ bind_rows(d_luad %>%
   facet_wrap(~type) + coord_flip() 
 ```
 
-### 2.2. Cancer type by gender
+### 2.4. Cancer type by gender
 
 Let's try another information - gender. We will describe this by a bar plot like above. After plotting, which information you can read from this?
 
@@ -115,7 +212,7 @@ bind_rows(d_luad %>%
 
 ```
 
-### 2.3. Site of biopsy
+### 2.5. Site of biopsy
 
 ```{r}
 # Cancer type by biopsy
@@ -152,23 +249,3 @@ bind_rows(d_luad %>%
   facet_wrap(~tissue_or_organ_of_origin)
 ```
 
-### 2.4. Which tissue or sample for your data?
-
-The column `shortLetterCode` contains [Sample Type Codes](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/sample-type-codes)
-- TP: Primary solid Tumor
-- NT: Solid Tissue Normal
-
-
-```{r}
-bind_rows(d_luad %>% 
-            mutate(type='luad') %>%
-            select(type, shortLetterCode, tumor_stage), 
-          d_lusc %>% 
-            mutate(type='lusc') %>%
-            select(type, shortLetterCode, tumor_stage)) %>%
-  count(shortLetterCode, type) %>% 
-  complete(type, shortLetterCode, fill = list(n = 0)) %>%
-  ggplot(., aes(type, n, fill=shortLetterCode)) + 
-  geom_bar(stat="identity", position=position_dodge()) + 
-  facet_wrap(~type, scales = 'free_x', ncol=5)
-```
