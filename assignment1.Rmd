@@ -1,0 +1,86 @@
+---
+title: "Assignment 1 - Visualize This"
+output: html_notebook
+---
+
+## Instruction
+
+- You should choose *ONE topic* for your assignment.
+
+- You will need to find a question you want to address from the dataset. If you have one, please send me via Slack DM. The question should not be overlapped with other students. So if you made a question, please send me as soon as possible. First come first serve.
+
+- Your assignment has to be written in the R notebook (as your daily assignment), including plot(s), the codes for data munging and plot, and description about your question, aim, finding. It would be great if you add some explanations on terms you have learnt over the assignment.
+
+- You cannot have more than 2 plots in your assignment. Multi-panel plots (like `facet_wrap` or `cowplot`) are allowed. 
+
+- Submission has to be a R notebook html file with the file name `assignment1_3digits_your-lastname` as other assignment. 
+
+- Language: `English + R` or `Korean + R`. However, your plot should be labelled in English.
+
+- Submission has to be made via Slack DM.
+
+- Please submit your assignment by **17th Oct, 10pm**. You can have only 70% score for the late submission 
+
+## Evaluation
+
+- **Accuracy.** How well you describe the dataset related to your question in the R notebook?
+- **Flowing Data.** Whether/how many times you use `tidyverse` functions for data munging? Whether the code is briefly and efficiently written for your task (e.g. `%>%`)?
+- **Storytelling with Data.** Whether you fully utilize the dataset for your question? Whether you understand the aim and methods of the dataset?
+- **Readability of your plot.** How much information you summarize into your plot?
+- **Right visual format.** Whether you properly use color, scale, and data type for your data visualization. 
+
+
+## Topics
+### 1. SCN2A mutations
+
+You will be given for the list of mutations in *SCN2A* from neurodevelopmental patients and general population without any pediatric condition. The dataset includes annotations as to functional consequence, allele frequency and other biological domains, created by [the Ensembl Variant Effect Predictor](https://asia.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html). With the dataset, you will need to visualize information and create graphics that tell stories on *SCN2A*. 
+
+```{r}
+# Download the SCN2A mutations
+wget https://www.dropbox.com/s/nxd8s6dppyd7uml/table.scn2a.vep_20190916.filtered.txt
+
+# Download the column headers for the file
+wget https://www.dropbox.com/s/56nm62vd58v95fq/table.scn2a.vep_20190916.headers.txt
+```
+
+### 2. The Developmental Disorders Genotype-Phenotype Database
+
+[The Developmental Disorders Genotype-Phenotype Database (DDG2P)](https://decipher.sanger.ac.uk/ddd) is a curated list of genes reported to be associated with developmental disorders, compiled by clinicians as part of the DDD study to facilitate clinical feedback of likely causal variants. The list is categorised into the level of certainty that the gene causes developmental disease (confirmed or probable), the consequence of a mutation (loss-of function, activating, etc) and the allelic status associated with disease (monoallelic, biallelic, etc).
+
+You will need some additional information.
+
+1. pLI scores. I added the metrics for probability of loss-of-function. You can find further information from [here](https://decipher.sanger.ac.uk/info/loss-intolerance).
+
+2. The Human Phenotype Ontology. The Human Phenotype Ontology (HPO) provides a standardized vocabulary of phenotypic abnormalities encountered in human disease. Each term in the HPO describes a phenotypic abnormality, such as Atrial septal defect. The HPO is currently being developed using the medical literature, Orphanet, DECIPHER, and OMIM. HPO currently contains over 13,000 terms and over 156,000 annotations to hereditary diseases. The HPO project and others have developed software for phenotype-driven differential diagnostics, genomic diagnostics, and translational research. 
+
+```{r}
+# Download DD2GP with pLI scores
+wget https://www.dropbox.com/s/pqihpzy24yafr7c/DDG2P_24_9_2019.with_pLI.txt
+
+# HPO 
+wget https://www.dropbox.com/s/svc4rfhx2z2dopk/table.hpo_obo_20190924.txt
+```
+
+### 3. BrainSpan dataset
+
+The development of the prefrontal cortex (PFC) is an immensely complex process. It begins as a simple neural tube that derives from the embryonic ectoderm and gradually develops into mature organization through immensely complicated and strictly regulated molecular and cellular processes. Recent advances in genome sequencing enables profiling gene expression across human tissues and developmental stages. Here we use the RNA-seq transcriptomic dataset from the BrainSpan atlas, a foundational resource for studying transcriptional mechanisms involved in human brain development. With the subset of the human dorsolateral prefrontal cortex, we will explore how gene expression changes from early fetal to late adulthood. 
+
+There are two papers on the dataset ([Kang et al. 2010](https://www.ncbi.nlm.nih.gov/pubmed/22031440), [Miller et al. 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4105188/)). Please find background information - experimental design, techniques (RNA-seq), and findings for developing brain transcriptome.
+
+In the dataset, you will find three data frames.
+
+- e: RNA-seq expression
+- g: gene information
+- s: sample information
+
+For further information, please find [the PDF link](https://help.brain-map.org/download/attachments/3506181/Transcriptome_Profiling.pdf?version=1&modificationDate=1382036562736&api=v2).
+
+```{r}
+# Download Rdata for the BrainSpan DFC samples
+wget https://www.dropbox.com/s/cw0rtq60a2o2kub/data_brainspan_DFC.20190924.Rdata
+
+# After download, please load data by `load('data_brainspan_DFC.20190924.Rdata')`.
+```
+
+
+
