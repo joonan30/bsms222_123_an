@@ -82,7 +82,7 @@ bind_rows(d_luad %>%
             mutate(type='lusc') %>%
             select(type, shortLetterCode, tumor_stage)) %>%
   count(shortLetterCode, type) %>% 
-  complete(type, shortLetterCode, fill = list(n = 0)) %>% # Q1: What is this? 
+  complete(type, shortLetterCode, fill = list(n = 0)) %>% # Q1: What is this?
   ggplot(., aes(shortLetterCode, n, fill=shortLetterCode)) + 
   geom_bar(stat="identity", position=position_dodge()) + 
   facet_wrap(~type, scales = 'free_x', ncol=5) # Q2: What is this?
@@ -115,11 +115,79 @@ To create a smooth density, we use the geom_density.
 ggplot(d_luad, aes(age_at_diagnosis)) + geom_density()
 ```
 
-We still found the bump in the density plot. What would contribute to this stratification? Let's look at some variables. 
+
+
+More plot types on distribution. First we can try the plot for both histogram and density.
 
 ```{r}
-ggplot(d_luad, aes(age_at_diagnosis, fill=gender)) + geom_histogram(bins=100)
+# Plot both histogram and density plot
+ggplot(d_luad, aes(age_at_diagnosis/365)) + 
+  geom_histogram(bins=100, colour="black", fill="white") + 
+  geom_density(alpha=.2, fill="#FF6666")
+
 ```
+
+What did you miss from this?
+
+Let's plot a bit different version. We will replace the y-axis of the histogram with the y-axis of the density plot. 
+
+```{r}
+# Histogram with density plot
+ggplot(d_luad, aes(age_at_diagnosis/365)) + 
+ geom_histogram(aes(y=..density..), colour="black", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") 
+```
+
+Q: Do you think whether it is good visualization for the distribution?
+
+
+From the plot above, we still found the bump around the center. What would contribute to this stratification? Let's look at some variables from other columns. First we can try information from the `gender` column. 
+
+```{r}
+ggplot(d_luad, aes(age_at_diagnosis/365, fill=gender)) + geom_histogram(bins=100)
+```
+
+Histogram would be okay but not best visualization. What else we can try?
+
+```{r}
+ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
+  geom_boxplot()
+```
+
+Can you tell the difference between boxplot and density plot? We can try a violin plot.
+
+```{r}
+ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
+  geom_violin()
+```
+
+Can you tell the difference between boxplot and violin plot? 
+
+```{r}
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
+  # geom_boxplot() + geom_violin()
+
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
+  geom_violin() + geom_boxplot()
+
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
+#   geom_violin(aes(fill=gender)) + geom_boxplot(fill='white')
+
+ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
+  geom_violin(aes(fill=gender)) + geom_boxplot(fill='white', width=0.5)
+```
+
+
+
+```{r}
+ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
+  geom_violin(aes(fill=gender))  + 
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.5)
+
+# Try different options from the manual
+# http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization
+```
+
 
 Do you think gender is the reason? If not, how about tumor stages?
 
@@ -127,6 +195,14 @@ Do you think gender is the reason? If not, how about tumor stages?
 ggplot(d_luad, aes(age_at_diagnosis/365, fill=tumor_stage)) + 
   geom_histogram(bins=100) + facet_wrap(~tumor_stage)
 ```
+
+
+#### More tasks for the class.
+
+- Q1. Add labels for the plot.
+- Q2. Change the color for categories.
+- Q3. Save to PDF file
+- Q4. Select the column with continuous information and plot the distribution by yourself.
 
 
 ### 2.3. Tumor stages of lung cancers
