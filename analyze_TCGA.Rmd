@@ -164,17 +164,21 @@ ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) +
 Can you tell the difference between boxplot and violin plot? 
 
 ```{r}
-# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
-  # geom_boxplot() + geom_violin()
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) +
+#   geom_boxplot() + 
+#   geom_violin()
 
-# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) + 
-  geom_violin() + geom_boxplot()
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365, fill=gender)) +
+#   geom_violin() + 
+#   geom_boxplot()
 
-# ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
-#   geom_violin(aes(fill=gender)) + geom_boxplot(fill='white')
+# ggplot(d_luad, aes(gender, age_at_diagnosis/365)) +
+#   geom_violin(aes(fill=gender)) + 
+#   geom_boxplot(fill='white')
 
-ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
-  geom_violin(aes(fill=gender)) + geom_boxplot(fill='white', width=0.5)
+ggplot(d_luad, aes(gender, age_at_diagnosis/365)) +
+  geom_violin(aes(fill=gender)) + 
+  geom_boxplot(fill='white', width=0.25)
 ```
 
 
@@ -182,7 +186,8 @@ ggplot(d_luad, aes(gender, age_at_diagnosis/365)) +
 ```{r}
 ggplot(d_luad, aes(gender, age_at_diagnosis/365)) + 
   geom_violin(aes(fill=gender))  + 
-  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.5)
+  geom_boxplot(fill='white') + 
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=1, alpha=0.5)
 
 # Try different options from the manual
 # http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization
@@ -192,8 +197,10 @@ ggplot(d_luad, aes(gender, age_at_diagnosis/365)) +
 Do you think gender is the reason? If not, how about tumor stages?
 
 ```{r}
-ggplot(d_luad, aes(age_at_diagnosis/365, fill=tumor_stage)) + 
-  geom_histogram(bins=100) + facet_wrap(~tumor_stage)
+ggplot(d_luad, aes(age_at_diagnosis/365)) + 
+  labs(x ='Age at Diagnosis (years)', y = 'Number of LUAD patients',
+       title = 'TCGA: Lung cancer adenocarcinoma') +
+  geom_histogram(bins=100) 
 ```
 
 
@@ -203,6 +210,20 @@ ggplot(d_luad, aes(age_at_diagnosis/365, fill=tumor_stage)) +
 - Q2. Change the color for categories.
 - Q3. Save to PDF file
 - Q4. Select the column with continuous information and plot the distribution by yourself.
+
+```{r}
+# assign p for plot
+p <- ggplot(d_luad, aes(age_at_diagnosis/365)) + 
+  labs(x ='Age at Diagnosis (years)', y = 'Number of LUAD patients',
+       title = 'TCGA: Lung cancer adenocarcinoma') +
+  geom_histogram(bins=100) 
+
+
+# save to file
+ggsave('plot.TCGA_LUAD.histogram_AgeOfDX.20191002.pdf', p, width = 16, height = 9)
+
+```
+
 
 
 ### 2.3. Tumor stages of lung cancers
