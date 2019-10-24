@@ -1,6 +1,6 @@
 # Assignment 1 - Visualize This
 
-You can find the instruction for this assignment [here](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/assignment1.nb.html)).
+You can find the instruction for this assignment [here](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/assignment1.nb.html).
 
 ## 1. SCN2A mutations
 
