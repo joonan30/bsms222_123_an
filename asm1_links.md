@@ -1,22 +1,24 @@
 # Assignment 1 - Visualize This
 
+You can find the instruction for this assignment [here](https://htmlpreview.github.io/?https://github.com/joonan30/bsms222_123_an/blob/master/assignment1.nb.html)).
+
 ## 1. SCN2A mutations
 
 - [Protein domain에 따른 SCN2A mutation의 분포와 빈도](https://htmlpreview.github.io/?https://github.com/hhodumaru/bsms222_101_kim/blob/master/assignment1_101_kim.nb.html)
 
-- [SIFT, PolyPhen, MPC의 관계](https://htmlpreview.github.io/?https://github.com/CHOIHYEONSEO/bsms222_159_choi/blob/master/assignment1_3digits_choi.nb.html)
+- [Mutation의 위해도를 기술하는 SIFT, PolyPhen, MPC의 관계](https://htmlpreview.github.io/?https://github.com/CHOIHYEONSEO/bsms222_159_choi/blob/master/assignment1_3digits_choi.nb.html)
 
-- [SCN2A: Mutation prediction scores for PolyPhen, SIFT, and MPC (by Consequence)](https://htmlpreview.github.io/?https://github.com/MinseokLee1/bsms222_157_lee/blob/master/assignment1_157_lee.nb.html)
+- [Mutation prediction scores for PolyPhen, SIFT, and MPC by mutation consequence](https://htmlpreview.github.io/?https://github.com/MinseokLee1/bsms222_157_lee/blob/master/assignment1_157_lee.nb.html)
 
 - [Frequency of existing variant in gnomAD의 IMPACT의 관계](https://htmlpreview.github.io/?https://github.com/chmijg/bsms222_141_choi/blob/master/assignment1_141_choi.nb.html)
 
 - [SCN2A에서 SIFT과 protein position에 따른 exon과 polyphen 관계](https://htmlpreview.github.io/?https://github.com/chaewon-Lim/bsms222_005_lim/blob/master/assignment1_005_lim.nb.html)
 
-- [SCN2A mutation- VARIANT_CLASS중 SNV의 Consequence 빈도](https://htmlpreview.github.io/?https://github.com/KODOYEONG/bsms222_116_ko/blob/master/assignment1_116_ko.nb.html)
+- [Single nucleotide variant의 consequence 빈도](https://htmlpreview.github.io/?https://github.com/KODOYEONG/bsms222_116_ko/blob/master/assignment1_116_ko.nb.html)
 
-- [SCN2A mutations](https://htmlpreview.github.io/?https://github.com/zeho825/bsms222_717_oh/blob/master/Assignment1_717_oh.nb.html)
+- [SCN2A mutation annotation IMPACT와 mutation consequence 관계](https://htmlpreview.github.io/?https://github.com/zeho825/bsms222_717_oh/blob/master/Assignment1_717_oh.nb.html)
 
-- [SCN2A mutations](https://htmlpreview.github.io/?https://github.com/Sunghoon10/bsms222_118_kim/blob/master/assignment1_118_kim.nb.html)
+- [cDNA 상의 mutations 분포](https://htmlpreview.github.io/?https://github.com/Sunghoon10/bsms222_118_kim/blob/master/assignment1_118_kim.nb.html)
 
 - [Properties of metrics between NDD samples and general population](https://htmlpreview.github.io/?https://github.com/liz620/bsms222_128_kim/blob/master/assignment1_128_kim.nb.html)
 
